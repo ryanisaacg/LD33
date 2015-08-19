@@ -9,7 +9,6 @@ public class RenderSystem extends IteratingSystem
 {
 	private SpriteBatch batch;
 	
-	@SuppressWarnings("unchecked")
 	public RenderSystem(SpriteBatch batch)
 	{
 		super(Family.all(Components.Draw.class).get());

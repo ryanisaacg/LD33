@@ -1,19 +1,16 @@
 package com.ryanisaacg.ld33.game;
 
+
 public class TileMap
 {
 	private boolean[][] map;
-	public int tileSize;
+	private int tileSize;
 	
 	public TileMap(boolean[][] map, int tileSize)
 	{
-		this.map = map.clone();
+		super();
+		this.map = map;
 		this.tileSize = tileSize;
-	}
-	
-	public TileMap(float width, float height, int tileSize)
-	{
-		this(new boolean [(int)width / tileSize] [(int)height / tileSize], tileSize);
 	}
 	
 	public int width()
@@ -39,10 +36,13 @@ public class TileMap
 	public boolean free(float x, float y, float width, float height)
 	{
 		boolean free = true;
-		int i, j = 0;
-		for(i = (int)x; free && i < x + width; i += tileSize)
-			for(j = (int)y; free && j < y + height; j += tileSize)
-				free = free(i, j);
+		for(int i = (int)x; free && i < x + width; i += tileSize)
+		{
+			for(int j = (int)x; free && j < y + height; j += tileSize)
+			{
+				free &= free(i, j);
+			}
+		}
 		free &= free(x + width, y + height);
 		return free;
 	}

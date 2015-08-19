@@ -8,18 +8,48 @@ public class Components
 	public static class Geom implements Component
 	{
 		public float x, y, width, height;
+		public Geom(float x, float y, float width, float height)
+		{
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
+		}
 	}
 	public static class Velocity implements Component
 	{
 		public float x, y;
+		public Velocity(float x, float y)
+		{
+			this.x = x;
+			this.y = y;
+		}
+		public enum CollideBehavior { IGNORE, STOP, DIE };
+		public CollideBehavior behavior = CollideBehavior.IGNORE;
 	}
 	public static class Health implements Component
 	{
 		public int health = 1;
+		public Health(int health)
+		{
+			this.health = health;
+		}
 	}
 	public static class Draw implements Component
 	{
 		public TextureRegion region;
 		public float rotation, alpha = 1.0f, scaleX = 1, scaleY = 1, originX = 0, originY = 0;
+		public Draw(TextureRegion region)
+		{
+			this.region = region;
+		}
+	}
+	public static class MarkedForDeath implements Component
+	{
+		/*
+		 * This class exists to tell the engine to remove the Entity
+		 * It has no other purpose
+		 */
+		public final static MarkedForDeath mark = new MarkedForDeath();
 	}
 }

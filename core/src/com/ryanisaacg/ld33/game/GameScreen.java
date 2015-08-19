@@ -13,9 +13,6 @@ public class GameScreen implements Screen
 	public GameScreen()
 	{
 		engine = new Engine();
-		thing = new Entity();
-		thing.add(new Components.Draw());
-		Gdx.app.log("TEST", "" + thing.getComponent(Components.Geom.class));
 	}
 	
 	@Override
