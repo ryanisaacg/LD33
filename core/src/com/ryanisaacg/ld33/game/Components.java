@@ -32,6 +32,14 @@ public class Components
 		public enum CollideBehavior { IGNORE, STOP, DIE };
 		public CollideBehavior behavior = CollideBehavior.IGNORE;
 	}
+	public static class Friction implements Component
+	{
+		public float friction;
+		public Friction(float amt)
+		{
+			friction = amt;
+		}
+	}
 	public static class Health implements Component
 	{
 		public int health = 1;

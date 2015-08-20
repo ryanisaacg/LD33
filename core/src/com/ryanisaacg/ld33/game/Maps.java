@@ -10,6 +10,8 @@ public class Maps
 	public static final ComponentMapper<Health> health;
 	public static final ComponentMapper<Draw> draw;
 	public static final ComponentMapper<Control> control;
+	public static final ComponentMapper<Friction> friction;
+	
 	static 
 	{
 		geom = ComponentMapper.getFor(Geom.class);
@@ -17,5 +19,6 @@ public class Maps
 		health = ComponentMapper.getFor(Health.class);
 		draw = ComponentMapper.getFor(Draw.class);
 		control = ComponentMapper.getFor(Control.class);
+		friction = ComponentMapper.getFor(Friction.class);
 	}
 }

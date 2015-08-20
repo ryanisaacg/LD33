@@ -1,14 +1,12 @@
 package com.ryanisaacg.ld33.game;
 
-import static com.ryanisaacg.ld33.game.Maps.geom;
-import static com.ryanisaacg.ld33.game.Maps.velocity;
+import static com.ryanisaacg.ld33.game.Maps.*;
+import static com.ryanisaacg.ld33.game.Components.*;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.ryanisaacg.ld33.game.Components.Geom;
-import com.ryanisaacg.ld33.game.Components.MarkedForDeath;
-import com.ryanisaacg.ld33.game.Components.Velocity;
+
 
 public class PhysicsSystem extends IteratingSystem
 {
@@ -42,5 +40,11 @@ public class PhysicsSystem extends IteratingSystem
 		}
 		hitbox.x += speed.x;
 		hitbox.y += speed.y;
+		Friction fric = friction.get(entity);
+		if(fric != null)
+		{
+			speed.x *= 1 - fric.friction;
+			speed.y *= 1 - fric.friction;
+		}
 	}
 }
