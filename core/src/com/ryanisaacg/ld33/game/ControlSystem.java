@@ -3,8 +3,8 @@ package com.ryanisaacg.ld33.game;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 
 import static com.ryanisaacg.ld33.game.Components.*;
 import static com.ryanisaacg.ld33.game.Maps.*;
@@ -21,15 +21,19 @@ public class ControlSystem extends IteratingSystem
 	{
 		Control keys = control.get(entity);
 		Velocity speed = velocity.get(entity);
-		speed.x = 0;
-		speed.y = 0;
+		
 		if(Gdx.input.isKeyPressed(keys.UP) && !Gdx.input.isKeyPressed(keys.DOWN))
-			speed.y = 2;
-		if(!Gdx.input.isKeyPressed(keys.UP) && Gdx.input.isKeyPressed(keys.DOWN))
-			speed.y = -2;
+			speed.y = MathUtils.clamp(speed.y + 0.2f, 0, 4f);
+		else if(!Gdx.input.isKeyPressed(keys.UP) && Gdx.input.isKeyPressed(keys.DOWN))
+			speed.y = MathUtils.clamp(speed.y - 0.2f, -4f, 0);
+		else
+			speed.y = 0;
+		
 		if(Gdx.input.isKeyPressed(keys.LEFT) && !Gdx.input.isKeyPressed(keys.RIGHT))
-			speed.x = -2;
-		if(!Gdx.input.isKeyPressed(keys.LEFT) && Gdx.input.isKeyPressed(keys.RIGHT))
-			speed.x = 2;
+			speed.x = MathUtils.clamp(speed.x - 0.2f, -4f, 0);
+		else if(!Gdx.input.isKeyPressed(keys.LEFT) && Gdx.input.isKeyPressed(keys.RIGHT))
+			speed.x = MathUtils.clamp(speed.x + 0.2f, 0, 4f);
+		else
+			speed.x = 0;
 	}
 }
