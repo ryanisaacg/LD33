@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.Input.Keys;
@@ -25,9 +26,10 @@ public class GameScreen implements Screen
 		engine.addSystem(new ControlSystem());
 		block = new Texture(Gdx.files.internal("badlogic.jpg"));
 		Entity entity = new Entity();
-		entity.add(new Components.Geom(0, 32, 32, 32));
-		entity.add(new Components.Draw(new TextureRegion(block)));
-		entity.add(new Components.Control(Keys.D, Keys.W, Keys.A, Keys.S));
+		entity.add(new Components.Geom(0, 32, 32, 32))
+		.add(new Components.Draw(new TextureRegion(block)))
+		.add(new Components.Control(Keys.D, Keys.W, Keys.A, Keys.S))
+		.add(new Components.Velocity(0, 0));
 		engine.addEntity(entity);
 	}
 	
@@ -40,6 +42,7 @@ public class GameScreen implements Screen
 	@Override
 	public void render(float delta)
 	{
+		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		batch.begin();
 		engine.update(delta);
 		batch.end();
