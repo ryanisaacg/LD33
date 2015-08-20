@@ -23,6 +23,13 @@ public class PhysicsSystem extends IteratingSystem
 	{
 		Geom hitbox = geom.get(entity);
 		Velocity speed = velocity.get(entity);
+		Jump entityJump = jump.get(entity);
+		if(entityJump != null)
+		{
+			entityJump.duration -= 1;
+			if(entityJump.duration == 0)
+				entity.remove(Jump.class);
+		}
 		switch(speed.behavior)
 		{
 			case STOP:

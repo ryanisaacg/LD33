@@ -59,13 +59,14 @@ public class Components
 	}
 	public static class Control implements Component
 	{
-		public final int RIGHT, UP, LEFT, DOWN;
-		public Control(int right, int up, int left, int down)
+		public final int RIGHT, UP, LEFT, DOWN, JUMP;
+		public Control(int right, int up, int left, int down, int jump)
 		{
 			this.RIGHT = right;
 			this.LEFT = left;
 			this.UP = up;
 			this.DOWN = down;
+			this.JUMP = jump;
 		}
 	}
 	public static class MarkedForDeath implements Component
@@ -75,5 +76,15 @@ public class Components
 		 * It has no other purpose
 		 */
 		public final static MarkedForDeath mark = new MarkedForDeath();
+	}
+	public static class Jump implements Component
+	{
+		public float duration;
+		public final float maxDuration;
+		public Jump(float timeInAir)
+		{
+			duration = timeInAir;
+			maxDuration = duration;
+		}
 	}
 }

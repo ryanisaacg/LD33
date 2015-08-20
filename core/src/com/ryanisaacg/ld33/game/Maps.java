@@ -11,7 +11,7 @@ public class Maps
 	public static final ComponentMapper<Draw> draw;
 	public static final ComponentMapper<Control> control;
 	public static final ComponentMapper<Friction> friction;
-	
+	public static final ComponentMapper<Jump> jump;
 	static 
 	{
 		geom = ComponentMapper.getFor(Geom.class);
@@ -20,5 +20,6 @@ public class Maps
 		draw = ComponentMapper.getFor(Draw.class);
 		control = ComponentMapper.getFor(Control.class);
 		friction = ComponentMapper.getFor(Friction.class);
+		jump = ComponentMapper.getFor(Jump.class);
 	}
 }

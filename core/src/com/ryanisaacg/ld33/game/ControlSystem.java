@@ -45,5 +45,9 @@ public class ControlSystem extends IteratingSystem
 			speed.x *= diagConstant;
 			speed.y *= diagConstant;
 		}
+		if(Gdx.input.isKeyJustPressed(keys.JUMP) && Maps.jump.get(entity) == null)
+		{
+			entity.add(new Components.Jump(60));
+		}
 	}
 }
