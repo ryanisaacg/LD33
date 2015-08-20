@@ -1,12 +1,14 @@
 package com.ryanisaacg.ld33.game;
 
+import static com.ryanisaacg.ld33.game.Maps.geom;
+import static com.ryanisaacg.ld33.game.Maps.velocity;
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
-
-import static com.ryanisaacg.ld33.game.Components.*;
-import static com.ryanisaacg.ld33.game.Maps.*;
+import com.ryanisaacg.ld33.game.Components.Geom;
+import com.ryanisaacg.ld33.game.Components.MarkedForDeath;
+import com.ryanisaacg.ld33.game.Components.Velocity;
 
 public class PhysicsSystem extends IteratingSystem
 {

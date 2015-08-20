@@ -14,8 +14,7 @@ public class GameScreen implements Screen
 {
 	private Engine engine;
 	private SpriteBatch batch;
-	private Entity thing;
-	private Texture block, player, enemy;
+	private Texture block;
 	
 	public GameScreen()
 	{
