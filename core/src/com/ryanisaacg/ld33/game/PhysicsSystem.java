@@ -29,8 +29,10 @@ public class PhysicsSystem extends IteratingSystem
 		{
 			case STOP:
 				if(!map.free(hitbox.x + speed.x, hitbox.y + speed.y, hitbox.width, hitbox.height))
+				{
 					speed.x = 0;
 					speed.y = 0;
+				}
 				break;
 			case DIE:
 				if(!map.free(hitbox.x + speed.x, hitbox.y + speed.y, hitbox.width, hitbox.height))

@@ -24,6 +24,11 @@ public class Components
 			this.x = x;
 			this.y = y;
 		}
+		public Velocity(float x, float y, CollideBehavior collision)
+		{
+			this(x, y);
+			behavior = collision;
+		}
 		public enum CollideBehavior { IGNORE, STOP, DIE };
 		public CollideBehavior behavior = CollideBehavior.IGNORE;
 	}

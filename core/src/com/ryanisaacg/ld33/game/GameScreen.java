@@ -28,7 +28,7 @@ public class GameScreen implements Screen
 		entity.add(new Components.Geom(0, 32, 32, 32))
 		.add(new Components.Draw(new TextureRegion(block)))
 		.add(new Components.Control(Keys.D, Keys.W, Keys.A, Keys.S))
-		.add(new Components.Velocity(0, 0));
+		.add(new Components.Velocity(0, 2, Components.Velocity.CollideBehavior.STOP));
 		engine.addEntity(entity);
 	}
 	
