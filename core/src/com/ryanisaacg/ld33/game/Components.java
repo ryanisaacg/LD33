@@ -44,6 +44,17 @@ public class Components
 			this.region = region;
 		}
 	}
+	public static class Control implements Component
+	{
+		public final int RIGHT, UP, LEFT, DOWN;
+		public Control(int right, int up, int left, int down)
+		{
+			this.RIGHT = right;
+			this.LEFT = left;
+			this.UP = up;
+			this.DOWN = down;
+		}
+	}
 	public static class MarkedForDeath implements Component
 	{
 		/*
