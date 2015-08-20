@@ -24,9 +24,9 @@ public class ControlSystem extends IteratingSystem
 		speed.x = 0;
 		speed.y = 0;
 		if(Gdx.input.isKeyPressed(keys.UP) && !Gdx.input.isKeyPressed(keys.DOWN))
-			speed.y = -2;
-		if(!Gdx.input.isKeyPressed(keys.UP) && Gdx.input.isKeyPressed(keys.DOWN))
 			speed.y = 2;
+		if(!Gdx.input.isKeyPressed(keys.UP) && Gdx.input.isKeyPressed(keys.DOWN))
+			speed.y = -2;
 		if(Gdx.input.isKeyPressed(keys.LEFT) && !Gdx.input.isKeyPressed(keys.RIGHT))
 			speed.x = -2;
 		if(!Gdx.input.isKeyPressed(keys.LEFT) && Gdx.input.isKeyPressed(keys.RIGHT))
