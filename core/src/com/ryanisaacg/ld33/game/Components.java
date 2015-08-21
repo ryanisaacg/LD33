@@ -1,7 +1,10 @@
 package com.ryanisaacg.ld33.game;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.Family.Builder;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 
 public class Components
 {
@@ -15,7 +18,14 @@ public class Components
 			this.width = width;
 			this.height = height;
 		}
+		public boolean overlaps(Geom other)
+		{
+			Rectangle.tmp.set(x, y, width, height);
+			Rectangle.tmp2.set(other.x, other.y, other.width, other.height);
+			return Rectangle.tmp.overlaps(Rectangle.tmp2);
+		}
 	}
+	
 	public static class Velocity implements Component
 	{
 		public float x, y;
@@ -32,6 +42,7 @@ public class Components
 		public enum CollideBehavior { IGNORE, STOP, DIE };
 		public CollideBehavior behavior = CollideBehavior.IGNORE;
 	}
+	
 	public static class Friction implements Component
 	{
 		public float friction;
@@ -40,14 +51,19 @@ public class Components
 			friction = amt;
 		}
 	}
+	
 	public static class Health implements Component
 	{
-		public int health = 1;
-		public Health(int health)
+		public int health = 1, countdown;
+		public final int maxCountdown;
+		public Health(int health, int maxCountdown)
 		{
 			this.health = health;
+			countdown = 0;
+			this.maxCountdown = maxCountdown;
 		}
 	}
+	
 	public static class Draw implements Component
 	{
 		public TextureRegion region;
@@ -57,6 +73,7 @@ public class Components
 			this.region = region;
 		}
 	}
+	
 	public static class Control implements Component
 	{
 		public final int RIGHT, UP, LEFT, DOWN, JUMP;
@@ -69,6 +86,7 @@ public class Components
 			this.JUMP = jump;
 		}
 	}
+	
 	public static class MarkedForDeath implements Component
 	{
 		/*
@@ -76,7 +94,9 @@ public class Components
 		 * It has no other purpose
 		 */
 		public final static MarkedForDeath mark = new MarkedForDeath();
+		private MarkedForDeath() {}
 	}
+	
 	public static class Jump implements Component
 	{
 		public float duration;
@@ -85,6 +105,15 @@ public class Components
 		{
 			duration = timeInAir;
 			maxDuration = duration;
+		}
+	}
+	
+	public static class Hurt implements Component
+	{
+		public final Family target;
+		public Hurt(Builder hurtEntities)
+		{
+			target = hurtEntities.all(Health.class).get();
 		}
 	}
 }
