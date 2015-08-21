@@ -1,6 +1,10 @@
 package com.ryanisaacg.ld33.game;
 
+import java.util.HashMap;
+import java.util.function.Function;
+
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.Family.Builder;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -123,6 +127,27 @@ public class Components
 		public Priority(int priority)
 		{
 			this.priority = priority;
+		}
+	}
+	
+	public static class Animation implements Component
+	{
+		public final HashMap<String, TextureRegion[]> animations;
+		public final HashMap<Function<Entity, Boolean>, String> triggers;
+		public int frame;
+		public String current;
+		
+		public Animation()
+		{
+			animations = new HashMap<String, TextureRegion[]>();
+			triggers = new HashMap<Function<Entity, Boolean>, String>();
+			frame = 0;
+		}
+		
+		public void add(String name, Function<Entity, Boolean> trigger, TextureRegion... textures)
+		{
+			triggers.put(trigger, name);
+			animations.put(name, textures);
 		}
 	}
 }
