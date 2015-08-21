@@ -2,7 +2,6 @@ package com.ryanisaacg.ld33.game;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.ryanisaacg.ld33.game.Components.Control;
 import com.ryanisaacg.ld33.game.Components.Draw;
+import com.ryanisaacg.ld33.game.Components.Follow;
 import com.ryanisaacg.ld33.game.Components.Geom;
 import com.ryanisaacg.ld33.game.Components.Health;
 import com.ryanisaacg.ld33.game.Components.Priority;
@@ -23,7 +23,6 @@ public class LevelLoader
 	{
 		this.csv = csv.replace("\r", "\n").replace(",,", ", ,");
 		String[] lines = this.csv.split("\n");
-		Gdx.app.log("CSV", lines[0]);
 		characters = new String[lines.length][lines[0].split(",").length];
 		for(int i = 0; i < characters.length && i < lines.length; i++)
 			for(int j = 0; j < characters[i].length && j < lines[i].split(",").length; j++)
@@ -43,6 +42,7 @@ public class LevelLoader
 					.add(new Health(1, 0))
 					.add(new Priority(0))
 					.add(new Draw(new TextureRegion(Textures.get("player"))))
+					.add(Follow.instance)
 					);
 				}
 		return engine;

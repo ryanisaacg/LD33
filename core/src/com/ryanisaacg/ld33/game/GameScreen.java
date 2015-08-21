@@ -34,15 +34,17 @@ public class GameScreen extends ScreenAdapter
 		loader.spawn(engine, TILE);
 		
 		engine.addSystem(new PhysicsSystem(new TileMap(new boolean[20][15], 32)));
-		engine.addSystem(new RenderSystem(batch, camera));
-		engine.addSystem(new ControlSystem());
+		engine.addSystem(new RenderSystem(batch));
+		engine.addSystem(new ControlSystem(camera));
 		engine.addSystem(new HurtSystem());
+		engine.addSystem(new AnimationSystem());
 	}
 
 	@Override
 	public void render(float delta)
 	{
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+		camera.update();
 		batch.setProjectionMatrix(camera.projection);
 		batch.begin();
 		engine.update(delta);
