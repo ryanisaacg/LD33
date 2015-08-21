@@ -9,19 +9,22 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class RenderSystem extends EntitySystem
 {
 	private Engine engine;
 	private final SpriteBatch batch;
+	private final OrthographicCamera camera;
 	private final PriorityQueue<Entity> render;
 	private final Family allowable;
 	
-	public RenderSystem(SpriteBatch batch)
+	public RenderSystem(SpriteBatch batch, OrthographicCamera camera)
 	{
 		this.batch = batch;
-		render = new PriorityQueue<Entity>(100, new Comparator<Entity>() {
+		this.camera = camera;
+		render = new PriorityQueue<Entity>(500, new Comparator<Entity>() {
 			public int compare(Entity e1, Entity e2)
 			{
 				Components.Priority p1 = Maps.priority.get(e1), p2 = Maps.priority.get(e2);
@@ -54,6 +57,7 @@ public class RenderSystem extends EntitySystem
 		Components.Geom geom = Maps.geom.get(entity);
 		Components.Draw tex = Maps.draw.get(entity);
 		Components.Jump jump = Maps.jump.get(entity);
+		Components.Follow follow = Maps.follow.get(entity);
 		float x = 0, y = 0, width = tex.region.getRegionWidth(), height = tex.region.getRegionHeight();
 		if(geom != null)
 		{
@@ -70,6 +74,11 @@ public class RenderSystem extends EntitySystem
 			y -= shift;
 			width += shift * 2;
 			height += shift * 2;
+		}
+		if(follow != null)
+		{
+			camera.position.x = geom.x + geom.width / 2;
+			camera.position.y = geom.y + geom.height / 2;
 		}
 		batch.draw(tex.region, x, y, tex.originX, tex.originY, width, height, tex.scaleX, tex.scaleY, tex.rotation);
 	}

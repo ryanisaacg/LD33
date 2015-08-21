@@ -16,6 +16,8 @@ public class Maps
 	public static final ComponentMapper<MarkedForDeath> marked;
 	public static final ComponentMapper<Priority> priority;
 	public static final ComponentMapper<Animation> animation;
+	public static final ComponentMapper<Follow> follow;
+	
 	static 
 	{
 		geom = ComponentMapper.getFor(Geom.class);
@@ -29,5 +31,6 @@ public class Maps
 		marked = ComponentMapper.getFor(MarkedForDeath.class);
 		priority = ComponentMapper.getFor(Priority.class);
 		animation = ComponentMapper.getFor(Animation.class);
+		follow = ComponentMapper.getFor(Follow.class);
 	}
 }

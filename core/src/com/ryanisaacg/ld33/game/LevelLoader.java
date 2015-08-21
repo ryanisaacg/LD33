@@ -21,8 +21,9 @@ public class LevelLoader
 	
 	public LevelLoader(String csv)
 	{
-		this.csv = csv.replace("\r", "\n");
+		this.csv = csv.replace("\r", "\n").replace(",,", ", ,");
 		String[] lines = this.csv.split("\n");
+		Gdx.app.log("CSV", lines[0]);
 		characters = new String[lines.length][lines[0].split(",").length];
 		for(int i = 0; i < characters.length && i < lines.length; i++)
 			for(int j = 0; j < characters[i].length && j < lines[i].split(",").length; j++)

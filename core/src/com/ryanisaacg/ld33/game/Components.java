@@ -150,4 +150,10 @@ public class Components
 			animations.put(name, textures);
 		}
 	}
+	
+	public static class Follow implements Component
+	{
+		private Follow() {}
+		public final static Follow instance = new Follow();
+	}
 }

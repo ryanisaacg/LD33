@@ -34,7 +34,7 @@ public class GameScreen extends ScreenAdapter
 		loader.spawn(engine, TILE);
 		
 		engine.addSystem(new PhysicsSystem(new TileMap(new boolean[20][15], 32)));
-		engine.addSystem(new RenderSystem(batch));
+		engine.addSystem(new RenderSystem(batch, camera));
 		engine.addSystem(new ControlSystem());
 		engine.addSystem(new HurtSystem());
 	}
