@@ -33,9 +33,22 @@ public class HurtSystem extends EntitySystem
     	ImmutableArray<Entity> targetList = engine.getEntitiesFor(targets);
     	ImmutableArray<Entity> hazardList = engine.getEntitiesFor(hazards);
     	for(Entity target : targetList)
+    	{
+    		Components.Health health = Maps.health.get(target);
     		for(Entity hazard : hazardList)
     			if(Maps.hurt.get(hazard).target.matches(target) && Maps.geom.get(target).overlaps(Maps.geom.get(hazard)))
-    				target.add(Components.MarkedForDeath.mark);
+    			{
+    				
+    				if(health.countdown <= 0)
+    				{
+    					health.health -= 1;
+    					health.countdown = health.maxCountdown;
+    				}
+    				if(health.health <= 0)
+    					target.add(Components.MarkedForDeath.mark);
+    			}
+    		health.countdown -= 1;
+    	}
     }
     
     public boolean checkProcessing()

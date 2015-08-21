@@ -33,7 +33,7 @@ public class GameScreen implements Screen
 		.add(new Components.Draw(new TextureRegion(block)))
 		.add(new Components.Control(Keys.D, Keys.W, Keys.A, Keys.S, Keys.SPACE))
 		.add(new Components.Velocity(0, 2, Components.Velocity.CollideBehavior.STOP))
-		.add(new Components.Health(1, 0));
+		.add(new Components.Health(3, 60));
 		engine.addEntity(entity);
 		engine.addEntity(new Entity().add(new Components.Geom(0, 0, 16, 16)).
 				add(new Components.Draw(new TextureRegion(red))).
