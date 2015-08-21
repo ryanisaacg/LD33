@@ -116,4 +116,13 @@ public class Components
 			target = hurtEntities.all(Health.class).get();
 		}
 	}
+	
+	public static class Priority implements Component
+	{
+		public int priority;
+		public Priority(int priority)
+		{
+			this.priority = priority;
+		}
+	}
 }

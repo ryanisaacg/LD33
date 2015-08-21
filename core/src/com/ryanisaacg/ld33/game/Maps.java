@@ -14,6 +14,7 @@ public class Maps
 	public static final ComponentMapper<Jump> jump;
 	public static final ComponentMapper<Hurt> hurt;
 	public static final ComponentMapper<MarkedForDeath> marked;
+	public static final ComponentMapper<Priority> priority;
 	
 	static 
 	{
@@ -26,5 +27,6 @@ public class Maps
 		jump = ComponentMapper.getFor(Jump.class);
 		hurt = ComponentMapper.getFor(Hurt.class);
 		marked = ComponentMapper.getFor(MarkedForDeath.class);
+		priority = ComponentMapper.getFor(Priority.class);
 	}
 }

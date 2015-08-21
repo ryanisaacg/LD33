@@ -28,7 +28,11 @@ public class PhysicsSystem extends IteratingSystem
 		{
 			entityJump.duration -= 1;
 			if(entityJump.duration == 0)
+			{
 				entity.remove(Jump.class);
+				Components.Priority p = Maps.priority.get(entity);
+				if(p != null) p.priority --;
+			}
 		}
 		switch(speed.behavior)
 		{

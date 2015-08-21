@@ -48,6 +48,8 @@ public class ControlSystem extends IteratingSystem
 		if(Gdx.input.isKeyJustPressed(keys.JUMP) && Maps.jump.get(entity) == null)
 		{
 			entity.add(new Components.Jump(60));
+			Components.Priority p = Maps.priority.get(entity);
+			if(p != null) p.priority ++;
 		}
 	}
 }
