@@ -34,7 +34,7 @@ public class HurtSystem extends EntitySystem
     	ImmutableArray<Entity> hazardList = engine.getEntitiesFor(hazards);
     	for(Entity target : targetList)
     		for(Entity hazard : hazardList)
-    			if(Maps.geom.get(target).overlaps(Maps.geom.get(hazard)))
+    			if(Maps.hurt.get(hazard).target.matches(target) && Maps.geom.get(target).overlaps(Maps.geom.get(hazard)))
     				target.add(Components.MarkedForDeath.mark);
     }
     
