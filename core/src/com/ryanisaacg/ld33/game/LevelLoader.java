@@ -2,6 +2,7 @@ package com.ryanisaacg.ld33.game;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,6 +13,8 @@ import com.ryanisaacg.ld33.game.Components.Draw;
 import com.ryanisaacg.ld33.game.Components.Follow;
 import com.ryanisaacg.ld33.game.Components.Geom;
 import com.ryanisaacg.ld33.game.Components.Health;
+import com.ryanisaacg.ld33.game.Components.Hurt;
+import com.ryanisaacg.ld33.game.Components.Jump;
 import com.ryanisaacg.ld33.game.Components.Priority;
 import com.ryanisaacg.ld33.game.Components.Velocity;
 public class LevelLoader
@@ -33,6 +36,7 @@ public class LevelLoader
 			for(int j = 0; j < characters[i].length; j++)
 				switch(characters[i][j])
 				{
+					//player
 					case 'P':
 						engine.addEntity(new Entity()
 						.add(new Control(Keys.RIGHT, Keys.UP, Keys.LEFT, Keys.DOWN, Keys.SPACE))
@@ -44,6 +48,21 @@ public class LevelLoader
 						.add(Follow.instance)
 						);
 						break;
+					//pit
+					case '0':
+						engine.addEntity(new Entity()
+						.add(new Geom(i * tile, j * tile, tile, tile))
+						.add(new Hurt(Family.all(Geom.class, Health.class).exclude(Jump.class)))
+						.add(new Draw(new TextureRegion(Textures.get("enemy"))))
+						);
+						break;
+					//light
+					case 'L':
+						//TODO: Light image
+						engine.addEntity(new Entity()
+						.add(new Geom(i * tile, j * tile, tile, tile))
+						.add(new Hurt(Family.all(Geom.class, Health.class, Control.class)))
+						);
 				}
 		return engine;
 	}
