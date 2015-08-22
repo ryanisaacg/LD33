@@ -16,34 +16,34 @@ import com.ryanisaacg.ld33.game.Components.Priority;
 import com.ryanisaacg.ld33.game.Components.Velocity;
 public class LevelLoader
 {
-	private final String csv;
-	private final String[][] characters;
+	private final char[][] characters;
 	
-	public LevelLoader(String csv)
+	public LevelLoader(String dat)
 	{
-		this.csv = csv.replace("\r", "\n").replace(",,", ", ,");
-		String[] lines = this.csv.split("\n");
-		characters = new String[lines.length][lines[0].split(",").length];
-		for(int i = 0; i < characters.length && i < lines.length; i++)
-			for(int j = 0; j < characters[i].length && j < lines[i].split(",").length; j++)
-				characters[i][j] = lines[i].split(",")[j];
+		String[] lines = dat.split("\n");
+		characters = new char[lines.length][lines[0].length()];
+		for(int i = 0; i < lines.length; i++)
+			for(int j = 0; j < lines[i].length(); j++)
+				characters[i][j] = lines[i].charAt(j);
 	}
 	
 	public Engine spawn(Engine engine, int tile)
 	{
 		for(int i = 0; i < characters.length; i++)
 			for(int j = 0; j < characters[i].length; j++)
-				if(characters[i][j] != null && characters[i][j].equals("Player"))
+				switch(characters[i][j])
 				{
-					engine.addEntity(new Entity()
-					.add(new Control(Keys.RIGHT, Keys.UP, Keys.LEFT, Keys.DOWN, Keys.SPACE))
-					.add(new Geom(i * tile, j * tile, tile, tile))
-					.add(new Velocity(0, 0))
-					.add(new Health(1, 0))
-					.add(new Priority(0))
-					.add(new Draw(new TextureRegion(Textures.get("player"))))
-					.add(Follow.instance)
-					);
+					case 'P':
+						engine.addEntity(new Entity()
+						.add(new Control(Keys.RIGHT, Keys.UP, Keys.LEFT, Keys.DOWN, Keys.SPACE))
+						.add(new Geom(i * tile, j * tile, tile, tile))
+						.add(new Velocity(0, 0))
+						.add(new Health(1, 0))
+						.add(new Priority(0))
+						.add(new Draw(new TextureRegion(Textures.get("player"))))
+						.add(Follow.instance)
+						);
+						break;
 				}
 		return engine;
 	}

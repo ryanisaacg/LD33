@@ -7,7 +7,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.MathUtils;
 import com.ryanisaacg.ld33.game.Components.Control;
 import com.ryanisaacg.ld33.game.Components.Velocity;
@@ -15,12 +14,10 @@ import com.ryanisaacg.ld33.game.Components.Velocity;
 public class ControlSystem extends IteratingSystem
 {
 	private final float diagConstant = 1 / (float)Math.sqrt(2);
-	private final Camera camera;
 	
-	public ControlSystem(Camera camera)
+	public ControlSystem()
 	{
 		super(Family.all(Control.class, Velocity.class).get());
-		this.camera = camera;
 	}
 	
 	@Override
@@ -57,7 +54,5 @@ public class ControlSystem extends IteratingSystem
 			Components.Priority p = Maps.priority.get(entity);
 			if(p != null) p.priority ++;
 		}
-		camera.position.x += speed.x;
-		camera.position.y += speed.y;
 	}
 }

@@ -10,6 +10,6 @@ public class LD33Game extends Game
 	@Override
 	public void create () 
 	{
-		setScreen(new GameScreen(Gdx.files.internal("testing.csv")));
+		setScreen(new GameScreen(Gdx.files.internal("lvl1")));
 	}
 }
