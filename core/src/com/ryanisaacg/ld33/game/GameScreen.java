@@ -16,11 +16,13 @@ public class GameScreen extends ScreenAdapter
 {
 	private Engine engine;
 	private SpriteBatch batch;
+	private LevelLoader loader;
 	private final int TILE = 32;
-	
+	//TODO: ADD HUMANS WHICH ARE STUNNED BY JUMP
+	//TODO: ADD FALLING PLATFORMS
 	public GameScreen(FileHandle file)
 	{
-		LevelLoader loader = new LevelLoader(getContents(file));
+		loader = new LevelLoader(getContents(file));
 		batch = new SpriteBatch();
 		engine = new Engine();
 		loader.spawn(engine, TILE);
@@ -31,7 +33,7 @@ public class GameScreen extends ScreenAdapter
 		engine.addSystem(new HurtSystem());
 		engine.addSystem(new AnimationSystem());
 	}
-
+	
 	@Override
 	public void render(float delta)
 	{
@@ -42,7 +44,16 @@ public class GameScreen extends ScreenAdapter
 		ImmutableArray<Entity> entities = engine.getEntities();
 		for(Entity entity : entities)
 			if(Maps.marked.get(entity) != null)
-				engine.removeEntity(entity);
+				if(Maps.control.get(entity) != null)
+					restart();
+				else
+					engine.removeEntity(entity);
+	}
+		
+	private void restart()
+	{
+		engine.removeAllEntities();
+		loader.spawn(engine, TILE);
 	}
 
 	@Override

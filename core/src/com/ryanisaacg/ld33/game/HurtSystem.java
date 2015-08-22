@@ -36,7 +36,11 @@ public class HurtSystem extends EntitySystem
     	{
     		Components.Health health = Maps.health.get(target);
     		for(Entity hazard : hazardList)
-    			if(Maps.hurt.get(hazard).target.matches(target) && Maps.geom.get(target).overlaps(Maps.geom.get(hazard)))
+    		{
+    			Components.Hurt hurtCondition = Maps.hurt.get(hazard);
+    			if((hurtCondition.current == null || hurtCondition.current.matches(hazard)) 
+    					&& hurtCondition.target.matches(target) 
+    					&& Maps.geom.get(target).overlaps(Maps.geom.get(hazard)))
     			{
     				
     				if(health.countdown <= 0)
@@ -47,6 +51,7 @@ public class HurtSystem extends EntitySystem
     				if(health.health <= 0)
     					target.add(Components.MarkedForDeath.mark);
     			}
+    		}
     		health.countdown -= 1;
     	}
     }

@@ -17,7 +17,6 @@ public class Maps
 	public static final ComponentMapper<Priority> priority;
 	public static final ComponentMapper<Animation> animation;
 	public static final ComponentMapper<Follow> follow;
-	
 	static 
 	{
 		geom = ComponentMapper.getFor(Geom.class);

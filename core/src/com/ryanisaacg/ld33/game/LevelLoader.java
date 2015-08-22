@@ -48,11 +48,11 @@ public class LevelLoader
 						.add(Follow.instance)
 						);
 						break;
-					//pit
-					case '0':
+					//spikes
+					case 'X':
 						engine.addEntity(new Entity()
 						.add(new Geom(i * tile, j * tile, tile, tile))
-						.add(new Hurt(Family.all(Geom.class, Health.class).exclude(Jump.class)))
+						.add(new Hurt(Family.all(Geom.class).exclude(Jump.class)))
 						.add(new Draw(new TextureRegion(Textures.get("enemy"))))
 						);
 						break;
@@ -70,5 +70,14 @@ public class LevelLoader
 	public Viewport getViewport(Camera camera, int tile)
 	{
 		return new FitViewport(characters.length * tile, characters[0].length * tile, camera);
+	}
+	
+	public TileMap getTilemap(int tile)
+	{
+		boolean[][] tiles = new boolean[characters.length][characters[0].length];
+		for(int i = 0; i < characters.length; i++)
+			for(int j = 0; j < characters[i].length; j++)
+				tiles[i][j] = characters[i][j] == '1';
+		return new TileMap(tiles, tile);
 	}
 }

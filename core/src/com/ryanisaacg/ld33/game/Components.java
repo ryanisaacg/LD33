@@ -114,10 +114,16 @@ public class Components
 	
 	public static class Hurt implements Component
 	{
-		public final Family target;
+		public final Family target, current;
 		public Hurt(Builder hurtEntities)
 		{
+			this(hurtEntities, null);
+		}
+		
+		public Hurt(Builder hurtEntities, Family statusToHurt)
+		{
 			target = hurtEntities.all(Health.class).get();
+			current = statusToHurt;
 		}
 	}
 	
