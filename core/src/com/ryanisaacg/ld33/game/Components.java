@@ -188,6 +188,17 @@ public class Components
 			this.type = type;
 		}
 	}
+	
+	public static class Goal implements Component
+	{
+		public enum Type { REACH, DESTROY };
+		public Type type;
+		
+		public Goal(Type type)
+		{
+			this.type = type;
+		}
+	}
 
 	public static double distance(Geom g1, Geom g2)
 	{
