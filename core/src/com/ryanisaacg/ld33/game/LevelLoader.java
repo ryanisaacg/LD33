@@ -49,10 +49,13 @@ public class LevelLoader
 						);
 						break;
 					case 'T':
+						Draw draw = new Draw(new TextureRegion(Textures.get("turret")));
+						draw.originX = draw.region.getRegionWidth() / 2;
+						draw.originY = draw.region.getRegionHeight() / 2;
 						engine.addEntity(new Entity() 
 						.add(new Geom(i * tile, j * tile, tile, tile))
 						.add(new AI(AI.Type.TURRET))
-						.add(new Draw(new TextureRegion(Textures.get("enemy"))))
+						.add(draw)
 						.add(new Health(1, 0))
 						);
 					//light

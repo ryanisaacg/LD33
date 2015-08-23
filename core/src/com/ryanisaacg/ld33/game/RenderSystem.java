@@ -52,6 +52,7 @@ public class RenderSystem extends EntitySystem
 	protected void processEntity(Entity entity, float deltaTime)
 	{
 		Components.Geom geom = Maps.geom.get(entity);
+		Components.Velocity speed = Maps.velocity.get(entity);
 		Components.Draw tex = Maps.draw.get(entity);
 		Components.Jump jump = Maps.jump.get(entity);
 		float x = 0, y = 0, width = tex.region.getRegionWidth(), height = tex.region.getRegionHeight();
@@ -70,6 +71,10 @@ public class RenderSystem extends EntitySystem
 			y -= shift;
 			width += shift * 2;
 			height += shift * 2;
+		}
+		if(speed != null && speed.lockDirection)
+		{
+			tex.rotation = (float)Math.toDegrees(Math.atan2(speed.y, speed.x));
 		}
 		batch.draw(tex.region, x, y, tex.originX, tex.originY, width, height, tex.scaleX, tex.scaleY, tex.rotation);
 	}

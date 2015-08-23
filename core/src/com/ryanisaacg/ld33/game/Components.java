@@ -37,6 +37,7 @@ public class Components
 		{
 			this.x = x;
 			this.y = y;
+			lockDirection = false;
 		}
 		public Velocity(float x, float y, CollideBehavior collision)
 		{
@@ -45,6 +46,7 @@ public class Components
 		}
 		public enum CollideBehavior { IGNORE, STOP, DIE };
 		public CollideBehavior behavior = CollideBehavior.IGNORE;
+		public boolean lockDirection;
 	}
 	
 	public static class Friction implements Component
@@ -174,7 +176,7 @@ public class Components
 			this.type = type;
 		}
 	}
-	
+
 	public static double distance(Geom g1, Geom g2)
 	{
 		return Math.sqrt(Math.pow(g1.x + g1.width / 2 - g2.x - g2.width / 2, 2) 

@@ -27,9 +27,11 @@ public class AISystem extends IteratingSystem
 	
 	private Entity bullet(float x, float y, float width, float height, float xspeed, float yspeed)
 	{
+		Components.Velocity velocity = new Components.Velocity(xspeed, yspeed, CollideBehavior.DIE);
+		velocity.lockDirection = true;
 		return new Entity()
 		.add(new Components.Geom(x, y, width, height))
-		.add(new Components.Velocity(xspeed, yspeed, CollideBehavior.DIE))
+		.add(velocity)
 		.add(new Components.Draw(new TextureRegion(Textures.get("bullet"))))
 		.add(new Components.Hurt(Family.all(Components.Geom.class, Components.Control.class).
 				exclude(Components.Jump.class, Components.AI.class)))
@@ -52,12 +54,14 @@ public class AISystem extends IteratingSystem
 					x = geom.x - aiGeom.x;
 					y = geom.y - aiGeom.y;
 					len = (float)Math.sqrt(x * x + y * y);
-					x /= len;
-					y /= len;
+					x = x / len * 10;
+					y = y / len * 10;
 					engine.addEntity(bullet(aiGeom.x + aiGeom.width / 2, aiGeom.y + aiGeom.height / 2, 8, 4, x, y));
 					aiType.delay = 60;
 				}
 				aiType.delay -= 1;
+				Components.Draw img = Maps.draw.get(entity);
+				img.rotation = (float)Math.toDegrees(Math.atan2(geom.y - aiGeom.y, geom.x - aiGeom.x));
 				break;
 			case HUNTER:
 				break;
