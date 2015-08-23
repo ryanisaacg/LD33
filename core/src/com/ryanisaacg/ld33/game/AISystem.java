@@ -43,11 +43,12 @@ public class AISystem extends IteratingSystem
 	{
 		Components.AI aiType = Maps.ai.get(entity);
 		Components.Geom aiGeom = Maps.geom.get(entity);
+		Components.Velocity aiSpeed = Maps.velocity.get(entity);
+		Entity player = engine.getEntitiesFor(playerFilter).first();
+		Components.Geom geom = Maps.geom.get(player);
 		switch(aiType.type)
 		{
 			case TURRET:
-				Entity player = engine.getEntitiesFor(playerFilter).first();
-				Components.Geom geom = Maps.geom.get(player);
 				if(Components.distance(aiGeom, geom) < 500 && aiType.delay <= 0)
 				{
 					float x, y, len;
@@ -64,6 +65,14 @@ public class AISystem extends IteratingSystem
 				img.rotation = (float)Math.toDegrees(Math.atan2(geom.y - aiGeom.y, geom.x - aiGeom.x));
 				break;
 			case HUNTER:
+				if(geom.x > aiGeom.x + 3)
+					aiSpeed.x = 3;
+				else if(geom.x < aiGeom.x - 3)
+					aiSpeed.x = -3;
+				if(geom.y > aiGeom.y + 3)
+					aiSpeed.y = 3;
+				if(geom.y < aiGeom.y - 3)
+					aiSpeed.y = -3;
 				break;
 			case HUNTER_KILLER:
 				break;

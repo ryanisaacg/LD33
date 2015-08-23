@@ -58,6 +58,15 @@ public class LevelLoader
 						.add(draw)
 						.add(new Health(1, 0))
 						);
+					case 'H':
+						engine.addEntity(new Entity() 
+						.add(new Geom(i * tile, j * tile, tile, tile))
+						.add(new Velocity(0, 0))
+						.add(new AI(AI.Type.HUNTER))
+						.add(new Draw(new TextureRegion(Textures.get("enemy"))))
+						.add(new Hurt(Family.all(Control.class).exclude(Jump.class)))
+						.add(new Health(1, 0))
+						);
 					//light
 					case 'L':
 						//TODO: Light image
