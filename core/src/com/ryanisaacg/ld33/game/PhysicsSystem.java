@@ -36,17 +36,17 @@ public class PhysicsSystem extends IteratingSystem
 		}
 		switch(speed.behavior)
 		{
-			case STOP:
-				if(!map.free(hitbox.x + speed.x, hitbox.y, hitbox.width, hitbox.height))
-					speed.x = 0;
-				if(!map.free(hitbox.x, hitbox.y + speed.y, hitbox.width, hitbox.height))
-					speed.y = 0;
-				break;
-			case DIE:
-				if(!map.free(hitbox.x + speed.x, hitbox.y + speed.y, hitbox.width, hitbox.height))
-					entity.add(MarkedForDeath.mark);
-				break;
-			default: break;
+		case STOP:
+			if(!map.free(hitbox.x + speed.x, hitbox.y, hitbox.width, hitbox.height))
+				speed.x = 0;
+			if(!map.free(hitbox.x, hitbox.y + speed.y, hitbox.width, hitbox.height))
+				speed.y = 0;
+			break;
+		case DIE:
+			if(!map.free(hitbox.x + speed.x, hitbox.y + speed.y, hitbox.width, hitbox.height))
+				entity.add(MarkedForDeath.mark);
+			break;
+		default: break;
 		}
 		hitbox.x += speed.x;
 		hitbox.y += speed.y;

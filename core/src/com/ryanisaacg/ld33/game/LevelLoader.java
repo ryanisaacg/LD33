@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.ryanisaacg.ld33.game.Components.Trap.Type;
+
 import static com.ryanisaacg.ld33.game.Components.*;
 public class LevelLoader
 {
@@ -28,52 +30,65 @@ public class LevelLoader
 			for(int j = 0; j < characters[i].length; j++)
 				switch(characters[i][j])
 				{
-					//player
-					case 'P':
-						engine.addEntity(new Entity()
-						.add(new Control(Keys.RIGHT, Keys.UP, Keys.LEFT, Keys.DOWN, Keys.SPACE))
-						.add(new Geom(i * tile, j * tile, tile, tile))
-						.add(new Velocity(0, 0, Velocity.CollideBehavior.STOP))
-						.add(new Health(1, 0))
-						.add(new Priority(0))
-						.add(new Draw(new TextureRegion(Textures.get("player"))))
-						.add(Follow.instance)
-						);
-						break;
-					//spikes
-					case 'X':
-						engine.addEntity(new Entity()
-						.add(new Geom(i * tile, j * tile, tile, tile))
-						.add(new Hurt(Family.all(Geom.class).exclude(Jump.class)))
-						.add(new Draw(new TextureRegion(Textures.get("enemy"))))
-						);
-						break;
-					case 'T':
-						Draw draw = new Draw(new TextureRegion(Textures.get("turret")));
-						draw.originX = draw.region.getRegionWidth() / 2;
-						draw.originY = draw.region.getRegionHeight() / 2;
-						engine.addEntity(new Entity() 
-						.add(new Geom(i * tile, j * tile, tile, tile))
-						.add(new AI(AI.Type.TURRET))
-						.add(draw)
-						.add(new Health(1, 0))
-						);
-					case 'H':
-						engine.addEntity(new Entity() 
-						.add(new Geom(i * tile, j * tile, tile, tile))
-						.add(new Velocity(0, 0))
-						.add(new AI(AI.Type.HUNTER))
-						.add(new Draw(new TextureRegion(Textures.get("enemy"))))
-						.add(new Hurt(Family.all(Control.class).exclude(Jump.class)))
-						.add(new Health(1, 0))
-						);
-					//light
-					case 'L':
-						//TODO: Light image
-						engine.addEntity(new Entity()
-						.add(new Geom(i * tile, j * tile, tile, tile))
-						.add(new Hurt(Family.all(Geom.class, Health.class, Control.class)))
-						);
+				//player
+				case 'P':
+					engine.addEntity(new Entity()
+					.add(new Control(Keys.RIGHT, Keys.UP, Keys.LEFT, Keys.DOWN, Keys.SPACE))
+					.add(new Geom(i * tile, j * tile, tile, tile))
+					.add(new Velocity(0, 0, Velocity.CollideBehavior.STOP))
+					.add(new Health(1, 0))
+					.add(new Priority(0))
+					.add(new Draw(new TextureRegion(Textures.get("player"))))
+					.add(Follow.instance)
+					);
+					break;
+				//spikes
+				case 'X':
+					engine.addEntity(new Entity()
+					.add(new Geom(i * tile, j * tile, tile, tile))
+					.add(new Hurt(Family.all(Geom.class).exclude(Jump.class)))
+					.add(new Draw(new TextureRegion(Textures.get("enemy"))))
+					);
+					break;
+				//turret
+				case 'T':
+					Draw draw = new Draw(new TextureRegion(Textures.get("turret")));
+					draw.originX = draw.region.getRegionWidth() / 2;
+					draw.originY = draw.region.getRegionHeight() / 2;
+					engine.addEntity(new Entity() 
+					.add(new Geom(i * tile, j * tile, draw.region.getRegionWidth(), draw.region.getRegionHeight()))
+					.add(new AI(AI.Type.TURRET))
+					.add(draw)
+					.add(new Health(1, 0))
+					);
+					break;
+				//hunter
+				case 'H':
+					engine.addEntity(new Entity() 
+					.add(new Geom(i * tile, j * tile, tile, tile))
+					.add(new Velocity(0, 0))
+					.add(new AI(AI.Type.HUNTER))
+					.add(new Draw(new TextureRegion(Textures.get("enemy"))))
+					.add(new Hurt(Family.all(Control.class).exclude(Jump.class)))
+					.add(new Health(1, 0))
+					);
+					break;
+				//arrow trap
+				case 'A':
+					engine.addEntity(new Entity()
+					.add(new Geom(i * tile, j * tile, tile, tile))
+					.add(new Trap(Type.ARROW))
+					.add(new Draw(new TextureRegion(Textures.get("enemy"))))
+					);
+					break;
+				//light
+				case 'L':
+					//TODO: Light image
+					engine.addEntity(new Entity()
+					.add(new Geom(i * tile, j * tile, tile, tile))
+					.add(new Hurt(Family.all(Geom.class, Health.class, Control.class)))
+					);
+					break;
 				}
 		return engine;
 	}

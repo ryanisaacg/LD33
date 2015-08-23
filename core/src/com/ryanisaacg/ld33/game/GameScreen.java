@@ -18,8 +18,7 @@ public class GameScreen extends ScreenAdapter
 	private SpriteBatch batch;
 	private LevelLoader loader;
 	private final int TILE = 32;
-	//TODO: ADD HUMANS WHICH ARE STUNNED BY JUMP
-	//TODO: ADD FALLING PLATFORMS
+	
 	public GameScreen(FileHandle file)
 	{
 		loader = new LevelLoader(getContents(file));
@@ -33,6 +32,7 @@ public class GameScreen extends ScreenAdapter
 		engine.addSystem(new HurtSystem());
 		engine.addSystem(new AnimationSystem());
 		engine.addSystem(new AISystem());
+		engine.addSystem(new TrapSystem());
 	}
 	
 	@Override

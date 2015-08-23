@@ -176,6 +176,18 @@ public class Components
 			this.type = type;
 		}
 	}
+	
+	public static class Trap implements Component
+	{
+		public enum Type { ARROW };
+		public Type type;
+		public int delay;
+		
+		public Trap(Type type)
+		{
+			this.type = type;
+		}
+	}
 
 	public static double distance(Geom g1, Geom g2)
 	{

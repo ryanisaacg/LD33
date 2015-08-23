@@ -25,7 +25,7 @@ public class AISystem extends IteratingSystem
 		this.engine = engine;
 	}
 	
-	private Entity bullet(float x, float y, float width, float height, float xspeed, float yspeed)
+	public static Entity bullet(float x, float y, float width, float height, float xspeed, float yspeed)
 	{
 		Components.Velocity velocity = new Components.Velocity(xspeed, yspeed, CollideBehavior.DIE);
 		velocity.lockDirection = true;
@@ -48,34 +48,34 @@ public class AISystem extends IteratingSystem
 		Components.Geom geom = Maps.geom.get(player);
 		switch(aiType.type)
 		{
-			case TURRET:
-				if(Components.distance(aiGeom, geom) < 500 && aiType.delay <= 0)
-				{
-					float x, y, len;
-					x = geom.x - aiGeom.x;
-					y = geom.y - aiGeom.y;
-					len = (float)Math.sqrt(x * x + y * y);
-					x = x / len * 10;
-					y = y / len * 10;
-					engine.addEntity(bullet(aiGeom.x + aiGeom.width / 2, aiGeom.y + aiGeom.height / 2, 8, 4, x, y));
-					aiType.delay = 60;
-				}
-				aiType.delay -= 1;
-				Components.Draw img = Maps.draw.get(entity);
-				img.rotation = (float)Math.toDegrees(Math.atan2(geom.y - aiGeom.y, geom.x - aiGeom.x));
-				break;
-			case HUNTER:
-				if(geom.x > aiGeom.x + 3)
-					aiSpeed.x = 3;
-				else if(geom.x < aiGeom.x - 3)
-					aiSpeed.x = -3;
-				if(geom.y > aiGeom.y + 3)
-					aiSpeed.y = 3;
-				if(geom.y < aiGeom.y - 3)
-					aiSpeed.y = -3;
-				break;
-			case HUNTER_KILLER:
-				break;
+		case TURRET:
+			if(Components.distance(aiGeom, geom) < 500 && aiType.delay <= 0)
+			{
+				float x, y, len;
+				x = geom.x - aiGeom.x;
+				y = geom.y - aiGeom.y;
+				len = (float)Math.sqrt(x * x + y * y);
+				x = x / len * 10;
+				y = y / len * 10;
+				engine.addEntity(bullet(aiGeom.x + aiGeom.width / 2, aiGeom.y + aiGeom.height / 2, 8, 4, x, y));
+				aiType.delay = 60;
+			}
+			aiType.delay -= 1;
+			Components.Draw img = Maps.draw.get(entity);
+			img.rotation = (float)Math.toDegrees(Math.atan2(geom.y - aiGeom.y, geom.x - aiGeom.x));
+			break;
+		case HUNTER:
+			if(geom.x > aiGeom.x + 3)
+				aiSpeed.x = 3;
+			else if(geom.x < aiGeom.x - 3)
+				aiSpeed.x = -3;
+			if(geom.y > aiGeom.y + 3)
+				aiSpeed.y = 3;
+			if(geom.y < aiGeom.y - 3)
+				aiSpeed.y = -3;
+			break;
+		case HUNTER_KILLER:
+			break;
 		}
 	}
 }

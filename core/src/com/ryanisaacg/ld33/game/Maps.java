@@ -18,6 +18,7 @@ public class Maps
 	public static final ComponentMapper<Animation> animation;
 	public static final ComponentMapper<Follow> follow;
 	public static final ComponentMapper<AI> ai;
+	public static final ComponentMapper<Trap> trap;
 	
 	static 
 	{
@@ -34,5 +35,6 @@ public class Maps
 		animation = ComponentMapper.getFor(Animation.class);
 		follow = ComponentMapper.getFor(Follow.class);
 		ai = ComponentMapper.getFor(AI.class);
+		trap = ComponentMapper.getFor(Trap.class);
 	}
 }
