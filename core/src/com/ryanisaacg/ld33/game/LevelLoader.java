@@ -8,15 +8,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.ryanisaacg.ld33.game.Components.Control;
-import com.ryanisaacg.ld33.game.Components.Draw;
-import com.ryanisaacg.ld33.game.Components.Follow;
-import com.ryanisaacg.ld33.game.Components.Geom;
-import com.ryanisaacg.ld33.game.Components.Health;
-import com.ryanisaacg.ld33.game.Components.Hurt;
-import com.ryanisaacg.ld33.game.Components.Jump;
-import com.ryanisaacg.ld33.game.Components.Priority;
-import com.ryanisaacg.ld33.game.Components.Velocity;
+import static com.ryanisaacg.ld33.game.Components.*;
 public class LevelLoader
 {
 	private final char[][] characters;
@@ -41,7 +33,7 @@ public class LevelLoader
 						engine.addEntity(new Entity()
 						.add(new Control(Keys.RIGHT, Keys.UP, Keys.LEFT, Keys.DOWN, Keys.SPACE))
 						.add(new Geom(i * tile, j * tile, tile, tile))
-						.add(new Velocity(0, 0))
+						.add(new Velocity(0, 0, Velocity.CollideBehavior.STOP))
 						.add(new Health(1, 0))
 						.add(new Priority(0))
 						.add(new Draw(new TextureRegion(Textures.get("player"))))
@@ -56,6 +48,13 @@ public class LevelLoader
 						.add(new Draw(new TextureRegion(Textures.get("enemy"))))
 						);
 						break;
+					case 'T':
+						engine.addEntity(new Entity() 
+						.add(new Geom(i * tile, j * tile, tile, tile))
+						.add(new AI(AI.Type.TURRET))
+						.add(new Draw(new TextureRegion(Textures.get("enemy"))))
+						.add(new Health(1, 0))
+						);
 					//light
 					case 'L':
 						//TODO: Light image

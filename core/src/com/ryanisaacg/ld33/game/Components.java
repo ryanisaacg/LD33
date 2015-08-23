@@ -122,7 +122,7 @@ public class Components
 		
 		public Hurt(Builder hurtEntities, Family statusToHurt)
 		{
-			target = hurtEntities.all(Health.class).get();
+			target = hurtEntities.get();
 			current = statusToHurt;
 		}
 	}
@@ -161,5 +161,23 @@ public class Components
 	{
 		private Follow() {}
 		public final static Follow instance = new Follow();
+	}
+	
+	public static class AI implements Component
+	{
+		public enum Type { TURRET, HUNTER, HUNTER_KILLER };
+		public Type type;
+		public int delay;
+		
+		public AI(Type type)
+		{
+			this.type = type;
+		}
+	}
+	
+	public static double distance(Geom g1, Geom g2)
+	{
+		return Math.sqrt(Math.pow(g1.x + g1.width / 2 - g2.x - g2.width / 2, 2) 
+				+ Math.pow(g1.y + g1.height / 2 - g2.y - g2.height / 2, 2));
 	}
 }
