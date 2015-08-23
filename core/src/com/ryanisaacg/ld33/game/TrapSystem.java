@@ -5,8 +5,9 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import static com.ryanisaacg.ld33.game.AISystem.bullet;
+import com.ryanisaacg.ld33.game.Components.Velocity.CollideBehavior;
 
 public class TrapSystem extends EntitySystem
 {
@@ -19,6 +20,19 @@ public class TrapSystem extends EntitySystem
 		this.engine = engine;
 		trap = Family.all(Components.Trap.class).get();
 		geom = Family.all(Components.Geom.class, Components.Velocity.class).get();
+	}
+	
+	private Entity bullet(float x, float y, float width, float height, float xspeed, float yspeed)
+	{
+		Components.Velocity velocity = new Components.Velocity(xspeed, yspeed, CollideBehavior.DIE);
+		velocity.lockDirection = true;
+		return new Entity()
+		.add(new Components.Geom(x, y, width, height))
+		.add(velocity)
+		.add(new Components.Draw(new TextureRegion(Textures.get("bullet"))))
+		.add(new Components.Hurt(Family.all(Components.Geom.class, Components.Health.class).
+				exclude(Components.Jump.class, Components.Trap.class)))
+		;
 	}
 	
 	@Override

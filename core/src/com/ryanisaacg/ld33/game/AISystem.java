@@ -25,7 +25,7 @@ public class AISystem extends IteratingSystem
 		this.engine = engine;
 	}
 	
-	public static Entity bullet(float x, float y, float width, float height, float xspeed, float yspeed)
+	private Entity bullet(float x, float y, float width, float height, float xspeed, float yspeed)
 	{
 		Components.Velocity velocity = new Components.Velocity(xspeed, yspeed, CollideBehavior.DIE);
 		velocity.lockDirection = true;
