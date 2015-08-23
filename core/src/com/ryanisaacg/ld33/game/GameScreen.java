@@ -33,6 +33,7 @@ public class GameScreen extends ScreenAdapter
 		engine.addSystem(new AnimationSystem());
 		engine.addSystem(new AISystem());
 		engine.addSystem(new TrapSystem());
+		engine.addSystem(new GoalSystem());
 	}
 	
 	@Override
