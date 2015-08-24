@@ -63,7 +63,7 @@ public class RenderSystem extends EntitySystem
 			width = geom.width;
 			height = geom.height;
 		}
-		if(jump != null)
+		if(jump != null && !jump.alwaysJump)
 		{
 			float peak = jump.maxDuration / 2;
 			float shift = 10 * (1 - (Math.abs(jump.duration - peak) / peak));

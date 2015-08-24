@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.ryanisaacg.ld33.game.Components.Velocity.CollideBehavior;
@@ -43,7 +44,7 @@ public class TrapSystem extends EntitySystem
 		for(Entity e : traps)
 		{
 			Components.Trap trapType = Maps.trap.get(e);
-			if(trapType.delay > 0)
+			if(trapType.delay > 0 && trapType.type != Components.Trap.Type.SENSOR)
 			{
 				trapType.delay--;
 				continue;
@@ -75,6 +76,7 @@ public class TrapSystem extends EntitySystem
 			case MINE:
 				for(Entity target : targets)
 				{
+					if(Maps.velocity.get(target).behavior == Components.Velocity.CollideBehavior.DIE) continue;
 					Components.Geom region = Maps.geom.get(target);
 					Components.Geom trapRegion = Maps.geom.get(e);
 					//Rectangle tmp = Rectangle.tmp.set(region.x, region.y, region.width, region.height);
@@ -117,6 +119,39 @@ public class TrapSystem extends EntitySystem
 					}
 				}
 				break;
+			case SENSOR:
+				Components.Geom trapRegion = Maps.geom.get(e);
+				Gdx.app.log("TRAP", "" + trapType.delay);
+				if(trapType.delay < 120)
+				{
+					trapType.delay--;
+					Components.Draw img = Maps.draw.get(e);
+					if(trapType.delay < 60)
+						if(img.region.getTexture() == Textures.get("sensor"))
+							img.region.setTexture(Textures.get("sensor_red"));
+						else if(trapType.delay <= 0)
+						{
+							engine.addEntity(bullet(trapRegion.x + trapRegion.width, trapRegion.y + trapRegion.height/2, 8, 4, SPD, 0));
+							engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height, 8, 4, 0, SPD));
+							engine.addEntity(bullet(trapRegion.x, trapRegion.y + trapRegion.height/2, 8, 4, -SPD, 0));
+							engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y, 8, 4, 0, -SPD));
+							engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height/2, 8, 4, SPD, SPD));
+							engine.addEntity(bullet(trapRegion.x - trapRegion.width/2, trapRegion.y + trapRegion.height/2, 8, 4, -SPD, SPD));
+							engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y - trapRegion.height/2, 8, 4, SPD, -SPD));
+							engine.addEntity(bullet(trapRegion.x - trapRegion.width/2, trapRegion.y - trapRegion.height/2, 8, 4, -SPD, -SPD));
+							Sounds.play("explosion");
+							trapType.delay = 120;
+							img.region.setTexture(Textures.get("sensor"));
+						}
+				}
+				else
+					for(Entity target : targets)
+					{
+						if(Maps.trap.get(target) != null || Maps.hurt.get(target) != null) continue;
+						Components.Geom region = Maps.geom.get(target);
+						if(region.overlaps(trapRegion))
+							trapType.delay--;
+					}
 			}
 		}
 	}

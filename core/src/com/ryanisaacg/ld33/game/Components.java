@@ -107,8 +107,16 @@ public class Components
 	{
 		public float duration;
 		public final float maxDuration;
+		public final boolean alwaysJump;
+		public Jump()
+		{
+			alwaysJump = true;
+			duration = maxDuration = 0;
+		}
+		
 		public Jump(float timeInAir)
 		{
+			alwaysJump = false;
 			duration = timeInAir;
 			maxDuration = duration;
 		}
@@ -179,13 +187,15 @@ public class Components
 	
 	public static class Trap implements Component
 	{
-		public enum Type { ARROW, SMASH, MINE };
+		public enum Type { ARROW, SMASH, MINE, SENSOR };
 		public Type type;
 		public int delay;
 		
 		public Trap(Type type)
 		{
 			this.type = type;
+			if(type == Type.SENSOR)
+				this.delay = 121;
 		}
 	}
 	

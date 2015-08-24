@@ -68,10 +68,13 @@ public class AISystem extends IteratingSystem
 		case EXPLOSIVE_TURRET:
 			if(Components.distance(aiGeom, geom) < 500 && aiType.delay <= 0)
 			{
+				Components.Velocity speed = Maps.velocity.get(player);
 				float x, y, len;
 				x = geom.x - aiGeom.x;
 				y = geom.y - aiGeom.y;
 				len = (float)Math.sqrt(x * x + y * y);
+				x += speed.x * (len / 10);
+				y += speed.y * (len / 10);
 				x = x / len * 10;
 				y = y / len * 10;
 				engine.addEntity(bullet(aiGeom.x + aiGeom.width / 2, aiGeom.y + aiGeom.height / 2, 8, 4, x, y));
@@ -99,6 +102,8 @@ public class AISystem extends IteratingSystem
 		case HUNTER_KILLER:
 			if(aiType.delay > 0)
 			{
+				aiSpeed.x = 0;
+				aiSpeed.y = 0;
 				if(geom.x > aiGeom.x + 32)
 					aiSpeed.x = 1;
 				else if(geom.x < aiGeom.x - 32)

@@ -31,7 +31,7 @@ public class PhysicsSystem extends IteratingSystem
 		Geom hitbox = geom.get(entity);
 		Velocity speed = velocity.get(entity);
 		Jump entityJump = jump.get(entity);
-		if(entityJump != null)
+		if(entityJump != null && !entityJump.alwaysJump)
 		{
 			entityJump.duration -= 1;
 			if(entityJump.duration == 0)

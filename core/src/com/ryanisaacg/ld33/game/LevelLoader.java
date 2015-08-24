@@ -111,6 +111,7 @@ public class LevelLoader
 					.add(draw)
 					.add(new Health(1, 0))
 					.add(new Priority(1))
+					.add(new Jump())
 					);
 					break;
 				//arrow trap
@@ -121,14 +122,13 @@ public class LevelLoader
 					.add(new Draw(new TextureRegion(Textures.get("arrowTrap"))))
 					);
 					break;
-					//arrow trap
+				//Sensor trap
 				case 'S':
 					engine.addEntity(new Entity()
 					.add(new Geom(i * tile, j * tile, tile, tile))
-					.add(new Velocity(0, 0, Velocity.CollideBehavior.STOP))
-					.add(new Trap(Type.SMASH))
-					.add(new Draw(new TextureRegion(Textures.get("smash"))))
-					.add(new Hurt(Family.all(Health.class, Geom.class, Velocity.class).exclude(Trap.class, Jump.class)))
+					.add(new Trap(Type.SENSOR))
+					.add(new Draw(new TextureRegion(Textures.get("sensor"))))
+					.add(new Priority(-1))
 					);
 					break;
 				//Controls- 1
