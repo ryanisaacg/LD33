@@ -79,7 +79,7 @@ public class LevelLoader
 					engine.addEntity(new Entity()
 					.add(new Geom(i * tile, j * tile, tile, tile))
 					.add(new Trap(Type.ARROW))
-					.add(new Draw(new TextureRegion(Textures.get("enemy"))))
+					.add(new Draw(new TextureRegion(Textures.get("arrowTrap"))))
 					);
 					break;
 					//arrow trap
@@ -88,7 +88,7 @@ public class LevelLoader
 					.add(new Geom(i * tile, j * tile, tile, tile))
 					.add(new Velocity(0, 0, Velocity.CollideBehavior.STOP))
 					.add(new Trap(Type.SMASH))
-					.add(new Draw(new TextureRegion(Textures.get("enemy"))))
+					.add(new Draw(new TextureRegion(Textures.get("smash"))))
 					.add(new Hurt(Family.all(Health.class, Geom.class, Velocity.class).exclude(Trap.class, Jump.class)))
 					);
 					break;
@@ -113,6 +113,12 @@ public class LevelLoader
 					.add(new Draw(new TextureRegion(Textures.get("goal"))))
 					);
 					break;
+				//Wall
+				case '1':
+					engine.addEntity(new Entity()
+					.add(new Geom(i * tile, j * tile, tile, tile))
+					.add(new Draw(new TextureRegion(Textures.get("wall"))))
+					);
 				}
 		boolean hasGoal = engine.getEntitiesFor(Family.all(Goal.class).get()).size() != 0;
 		if(!hasGoal)

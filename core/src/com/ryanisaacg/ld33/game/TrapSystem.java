@@ -61,10 +61,10 @@ public class TrapSystem extends EntitySystem
 							|| tmp.overlaps(Rectangle.tmp2.set(trapRegion.x - RNG, trapRegion.y, trapRegion.width, trapRegion.height))
 							|| tmp.overlaps(Rectangle.tmp2.set(trapRegion.x, trapRegion.y - RNG, trapRegion.width, trapRegion.height)))
 					{
-						engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height/2, 8, 4, SPD, 0));
-						engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height/2, 8, 4, 0, SPD));
-						engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height/2, 8, 4, -SPD, 0));
-						engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height/2, 8, 4, 0, -SPD));
+						engine.addEntity(bullet(trapRegion.x + trapRegion.width, trapRegion.y + trapRegion.height/2, 8, 4, SPD, 0));
+						engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height, 8, 4, 0, SPD));
+						engine.addEntity(bullet(trapRegion.x, trapRegion.y + trapRegion.height/2, 8, 4, -SPD, 0));
+						engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y, 8, 4, 0, -SPD));
 						trapType.delay = 60;
 					}
 				}
