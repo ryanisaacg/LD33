@@ -124,6 +124,7 @@ public class TrapSystem extends EntitySystem
 				Gdx.app.log("TRAP", "" + trapType.delay);
 				if(trapType.delay < 120)
 				{
+					Sounds.play("click");
 					trapType.delay--;
 					Components.Draw img = Maps.draw.get(e);
 					if(trapType.delay < 60)
