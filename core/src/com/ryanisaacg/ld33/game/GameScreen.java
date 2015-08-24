@@ -24,6 +24,7 @@ public class GameScreen extends ScreenAdapter
 	private int level;
 	private final GoalSystem goal;
 	private ShapeRenderer shapes;
+	private float r;
 	
 	public GameScreen(int level)
 	{
@@ -48,13 +49,15 @@ public class GameScreen extends ScreenAdapter
 		
 		WIDTH = map.width;
 		HEIGHT = map.height;
+		r = 1;
 	}
 	
 	@Override
 	public void render(float delta)
 	{
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		Gdx.gl20.glClearColor(0.0f, 0.0f, 0.0f, 1);
+		r = (r + 0.01f) % 2;
+		Gdx.gl20.glClearColor(Math.abs(1 - r), 0.0f, 0.0f, 1);
 		shapes.setColor(0.1f, 0.0f, 0.0f, 0.0f);
 		shapes.begin(ShapeType.Filled);
 		shapes.rect(12, 12, WIDTH, HEIGHT);
