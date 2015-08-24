@@ -20,8 +20,8 @@ public class LevelLoader
 	{
 		String[] lines = dat.split("\n");
 		characters = new char[lines.length][lines[0].length()];
-		for(int i = 0; i < lines.length; i++)
-			for(int j = 0; j < lines[i].length(); j++)
+		for(int i = 0; i < lines.length && i < characters.length; i++)
+			for(int j = 0; j < lines[i].length() && j < characters[i].length; j++)
 				characters[i][j] = lines[i].charAt(j);
 	}
 	
