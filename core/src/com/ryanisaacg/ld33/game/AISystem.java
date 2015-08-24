@@ -66,14 +66,14 @@ public class AISystem extends IteratingSystem
 			img.rotation = (float)Math.toDegrees(Math.atan2(geom.y - aiGeom.y, geom.x - aiGeom.x));
 			break;
 		case HUNTER:
-			if(geom.x > aiGeom.x + 32)
-				aiSpeed.x = 3;
-			else if(geom.x < aiGeom.x - 32)
-				aiSpeed.x = -3;
-			if(geom.y > aiGeom.y + 32)
-				aiSpeed.y = 3;
-			if(geom.y < aiGeom.y - 32)
-				aiSpeed.y = -3;
+			float x, y, len;
+			x = geom.x - aiGeom.x;
+			y = geom.y - aiGeom.y;
+			len = (float)Math.sqrt(x * x + y * y);
+			x = x / len * 3;
+			y = y / len * 3;
+			aiSpeed.x = x;
+			aiSpeed.y = y;
 			break;
 		case HUNTER_KILLER:
 			if(aiType.delay > 0)
@@ -90,7 +90,6 @@ public class AISystem extends IteratingSystem
 			}
 			else
 			{
-				float x, y, len;
 				x = geom.x - aiGeom.x;
 				y = geom.y - aiGeom.y;
 				len = (float)Math.sqrt(x * x + y * y);
