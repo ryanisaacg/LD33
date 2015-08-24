@@ -70,9 +70,10 @@ public class TrapSystem extends EntitySystem
 				}
 				break;
 			case SMASH:
+				Components.Velocity velocity = Maps.velocity.get(e);
 				for(Entity target : targets)
 				{
-					if(target == e)
+					if(target == e || velocity.x != 0 || velocity.y != 0)
 						continue;
 					Components.Geom region = Maps.geom.get(target);
 					Components.Geom trapRegion = Maps.geom.get(e);
@@ -82,7 +83,6 @@ public class TrapSystem extends EntitySystem
 							|| tmp.overlaps(Rectangle.tmp2.set(trapRegion.x - SRNG, trapRegion.y, trapRegion.width, trapRegion.height))
 							|| tmp.overlaps(Rectangle.tmp2.set(trapRegion.x, trapRegion.y - SRNG, trapRegion.width, trapRegion.height)))
 					{
-						Components.Velocity velocity = Maps.velocity.get(e);
 						float x, y, len;
 						x = region.x - trapRegion.x;
 						y = region.y - trapRegion.y;
