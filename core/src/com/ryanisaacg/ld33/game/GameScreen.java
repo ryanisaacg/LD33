@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
@@ -54,7 +55,7 @@ public class GameScreen extends ScreenAdapter
 					restart();
 				else
 					engine.removeEntity(entity);
-		if(goal.isFinished())
+		if(goal.isFinished() || Gdx.input.isKeyJustPressed(Keys.PAGE_UP))
 			next();
 	}
 		

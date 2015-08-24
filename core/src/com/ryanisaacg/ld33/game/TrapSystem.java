@@ -13,7 +13,7 @@ public class TrapSystem extends EntitySystem
 {
 	private Engine engine;
 	private Family trap, geom;
-	private final int RNG = 250, SPD = 8;
+	private final int RNG = 250, SPD = 12, SRNG = 400;
 	@Override
 	public void addedToEngine(Engine engine)
 	{
@@ -66,6 +66,29 @@ public class TrapSystem extends EntitySystem
 						engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height/2, 8, 4, -SPD, 0));
 						engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height/2, 8, 4, 0, -SPD));
 						trapType.delay = 60;
+					}
+				}
+				break;
+			case SMASH:
+				for(Entity target : targets)
+				{
+					if(target == e)
+						continue;
+					Components.Geom region = Maps.geom.get(target);
+					Components.Geom trapRegion = Maps.geom.get(e);
+					Rectangle tmp = Rectangle.tmp.set(region.x, region.y, region.width, region.height);
+					if(tmp.overlaps(Rectangle.tmp2.set(trapRegion.x, trapRegion.y, SRNG, trapRegion.height))
+							|| tmp.overlaps(Rectangle.tmp2.set(trapRegion.x, trapRegion.y, trapRegion.width, SRNG))
+							|| tmp.overlaps(Rectangle.tmp2.set(trapRegion.x - SRNG, trapRegion.y, trapRegion.width, trapRegion.height))
+							|| tmp.overlaps(Rectangle.tmp2.set(trapRegion.x, trapRegion.y - SRNG, trapRegion.width, trapRegion.height)))
+					{
+						Components.Velocity velocity = Maps.velocity.get(e);
+						float x, y, len;
+						x = region.x - trapRegion.x;
+						y = region.y - trapRegion.y;
+						len = (float)Math.sqrt(x * x + y * y);
+						velocity.x = x / len * SPD;
+						velocity.y = y / len * SPD;
 					}
 				}
 				break;

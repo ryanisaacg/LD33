@@ -82,6 +82,16 @@ public class LevelLoader
 					.add(new Draw(new TextureRegion(Textures.get("enemy"))))
 					);
 					break;
+					//arrow trap
+				case 'S':
+					engine.addEntity(new Entity()
+					.add(new Geom(i * tile, j * tile, tile, tile))
+					.add(new Velocity(0, 0, Velocity.CollideBehavior.STOP))
+					.add(new Trap(Type.SMASH))
+					.add(new Draw(new TextureRegion(Textures.get("enemy"))))
+					.add(new Hurt(Family.all(Health.class, Geom.class, Velocity.class).exclude(Trap.class, Jump.class)))
+					);
+					break;
 				//Controls- 1
 				case 'C':
 					engine.addEntity(new Entity()
