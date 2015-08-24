@@ -65,6 +65,27 @@ public class AISystem extends IteratingSystem
 			Components.Draw img = Maps.draw.get(entity);
 			img.rotation = (float)Math.toDegrees(Math.atan2(geom.y - aiGeom.y, geom.x - aiGeom.x));
 			break;
+		case EXPLOSIVE_TURRET:
+			if(Components.distance(aiGeom, geom) < 500 && aiType.delay <= 0)
+			{
+				float x, y, len;
+				x = geom.x - aiGeom.x;
+				y = geom.y - aiGeom.y;
+				len = (float)Math.sqrt(x * x + y * y);
+				x = x / len * 10;
+				y = y / len * 10;
+				engine.addEntity(bullet(aiGeom.x + aiGeom.width / 2, aiGeom.y + aiGeom.height / 2, 8, 4, x, y));
+				engine.addEntity(bullet(aiGeom.x + aiGeom.width / 2 + 2, aiGeom.y + aiGeom.height / 2 + 2, 8, 4, x, y));
+				engine.addEntity(bullet(aiGeom.x + aiGeom.width / 2 - 2, aiGeom.y + aiGeom.height / 2 + 2, 8, 4, x, y));
+				engine.addEntity(bullet(aiGeom.x + aiGeom.width / 2 + 2, aiGeom.y + aiGeom.height / 2 - 2, 8, 4, x, y));
+				engine.addEntity(bullet(aiGeom.x + aiGeom.width / 2 - 2, aiGeom.y + aiGeom.height / 2 - 2, 8, 4, x, y));
+				aiType.delay = 60;
+				Sounds.play("laser-gun");
+			}
+			aiType.delay -= 1;
+			img = Maps.draw.get(entity);
+			img.rotation = (float)Math.toDegrees(Math.atan2(geom.y - aiGeom.y, geom.x - aiGeom.x));
+			break;
 		case HUNTER:
 			float x, y, len;
 			x = geom.x - aiGeom.x;

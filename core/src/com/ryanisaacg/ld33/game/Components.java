@@ -167,7 +167,7 @@ public class Components
 	
 	public static class AI implements Component
 	{
-		public enum Type { TURRET, HUNTER, HUNTER_KILLER };
+		public enum Type { TURRET, HUNTER, HUNTER_KILLER, EXPLOSIVE_TURRET };
 		public Type type;
 		public int delay;
 		
