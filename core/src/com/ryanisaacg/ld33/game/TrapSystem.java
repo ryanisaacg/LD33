@@ -67,6 +67,7 @@ public class TrapSystem extends EntitySystem
 						engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height, 8, 4, 0, SPD));
 						engine.addEntity(bullet(trapRegion.x, trapRegion.y + trapRegion.height/2, 8, 4, -SPD, 0));
 						engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y, 8, 4, 0, -SPD));
+						Sounds.play("laser-gun");
 						trapType.delay = 30;
 					}
 				}

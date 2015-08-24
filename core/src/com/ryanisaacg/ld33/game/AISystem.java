@@ -59,6 +59,7 @@ public class AISystem extends IteratingSystem
 				y = y / len * 10;
 				engine.addEntity(bullet(aiGeom.x + aiGeom.width / 2, aiGeom.y + aiGeom.height / 2, 8, 4, x, y));
 				aiType.delay = 60;
+				Sounds.play("laser-gun");
 			}
 			aiType.delay -= 1;
 			Components.Draw img = Maps.draw.get(entity);

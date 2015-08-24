@@ -79,6 +79,7 @@ public class GameScreen extends ScreenAdapter
 		loader.spawn(engine, TILE);
 		engine.removeSystem(engine.getSystem(PhysicsSystem.class));
 		engine.addSystem(new PhysicsSystem(loader.getTilemap(TILE)));
+		Sounds.stopAll();
 	}
 	
 	private void next()
@@ -98,6 +99,7 @@ public class GameScreen extends ScreenAdapter
 	public void dispose()
 	{
 		Textures.dispose();
+		Sounds.dispose();
 		batch.dispose();
 	}
 	
