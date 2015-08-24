@@ -44,6 +44,7 @@ public class GameScreen extends ScreenAdapter
 		engine.addSystem(new AISystem());
 		engine.addSystem(new TrapSystem());
 		engine.addSystem(goal = new GoalSystem());
+		new MusicSystem("sounds/track1.mp3", "sounds/track2.mp3", "sounds/track3.mp3");
 		
 		WIDTH = map.width;
 		HEIGHT = map.height;
