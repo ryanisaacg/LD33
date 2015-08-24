@@ -16,13 +16,13 @@ public class GoalSystem extends EntitySystem
 	{
 		super();
 		playerFilter = Family.all(Components.Control.class).get();
+		goals = Family.all(Components.Goal.class).get();
 	}
 	
 	@Override
 	public void addedToEngine(Engine engine)
 	{
 		this.engine = engine;
-		goals = Family.all(Components.Goal.class).get();
 	}
 	
 	public void update(float deltaTime)

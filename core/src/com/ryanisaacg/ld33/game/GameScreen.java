@@ -14,26 +14,30 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameScreen extends ScreenAdapter
 {
-	private Engine engine;
-	private SpriteBatch batch;
+	private final Engine engine;
+	private final SpriteBatch batch;
 	private LevelLoader loader;
 	private final int TILE = 32;
+	private int level;
+	private final GoalSystem goal;
 	
-	public GameScreen(FileHandle file)
+	public GameScreen(int level)
 	{
+		this.level = level;
+		FileHandle file = Gdx.files.internal("levels/lvl" + level);
 		loader = new LevelLoader(getContents(file));
 		batch = new SpriteBatch();
 		engine = new Engine();
 		loader.spawn(engine, TILE);
 		
-		engine.addSystem(new PhysicsSystem(new TileMap(new boolean[20][15], 32)));
+		engine.addSystem(new PhysicsSystem(loader.getTilemap(TILE)));
 		engine.addSystem(new RenderSystem(batch));
 		engine.addSystem(new ControlSystem());
 		engine.addSystem(new HurtSystem());
 		engine.addSystem(new AnimationSystem());
 		engine.addSystem(new AISystem());
 		engine.addSystem(new TrapSystem());
-		engine.addSystem(new GoalSystem());
+		engine.addSystem(goal = new GoalSystem());
 	}
 	
 	@Override
@@ -50,12 +54,24 @@ public class GameScreen extends ScreenAdapter
 					restart();
 				else
 					engine.removeEntity(entity);
+		if(goal.isFinished())
+			next();
 	}
 		
 	private void restart()
 	{
 		engine.removeAllEntities();
 		loader.spawn(engine, TILE);
+		engine.removeSystem(engine.getSystem(PhysicsSystem.class));
+		engine.addSystem(new PhysicsSystem(loader.getTilemap(TILE)));
+	}
+	
+	private void next()
+	{
+		level += 1;
+		FileHandle file = Gdx.files.internal("levels/lvl" + level);
+		loader = new LevelLoader(getContents(file));
+		restart();
 	}
 
 	@Override
@@ -67,6 +83,7 @@ public class GameScreen extends ScreenAdapter
 	public void dispose()
 	{
 		Textures.dispose();
+		batch.dispose();
 	}
 	
 	private String getContents(FileHandle file)

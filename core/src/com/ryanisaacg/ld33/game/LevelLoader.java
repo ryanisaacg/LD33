@@ -14,6 +14,7 @@ import static com.ryanisaacg.ld33.game.Components.*;
 public class LevelLoader
 {
 	private final char[][] characters;
+	private String solids = "1A";
 	
 	public LevelLoader(String dat)
 	{
@@ -81,15 +82,19 @@ public class LevelLoader
 					.add(new Draw(new TextureRegion(Textures.get("enemy"))))
 					);
 					break;
-				//light
-				case 'L':
-					//TODO: Light image
+				//Goal
+				case 'G':
 					engine.addEntity(new Entity()
 					.add(new Geom(i * tile, j * tile, tile, tile))
-					.add(new Hurt(Family.all(Geom.class, Health.class, Control.class)))
+					.add(new Goal(Goal.Type.REACH))
+					.add(new Draw(new TextureRegion(Textures.get("goal"))))
 					);
 					break;
 				}
+		boolean hasGoal = engine.getEntitiesFor(Family.all(Goal.class).get()).size() != 0;
+		if(!hasGoal)
+			for(Entity e : engine.getEntitiesFor(Family.all(AI.class, Hurt.class).get()))
+				e.add(new Goal(Goal.Type.DESTROY));
 		return engine;
 	}
 	
@@ -103,7 +108,7 @@ public class LevelLoader
 		boolean[][] tiles = new boolean[characters.length][characters[0].length];
 		for(int i = 0; i < characters.length; i++)
 			for(int j = 0; j < characters[i].length; j++)
-				tiles[i][j] = characters[i][j] == '1';
+				tiles[i][j] = solids.contains("" + characters[i][j]);
 		return new TileMap(tiles, tile);
 	}
 }
