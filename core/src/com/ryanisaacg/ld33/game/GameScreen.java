@@ -89,8 +89,11 @@ public class GameScreen extends ScreenAdapter
 	{
 		level += 1;
 		FileHandle file = Gdx.files.internal("levels/lvl" + level);
-		loader = new LevelLoader(getContents(file));
-		restart();
+		if(file.exists())
+		{
+			loader = new LevelLoader(getContents(file));
+			restart();
+		}
 	}
 
 	@Override
