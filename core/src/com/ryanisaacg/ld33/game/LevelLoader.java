@@ -82,6 +82,19 @@ public class LevelLoader
 					.add(new Draw(new TextureRegion(Textures.get("enemy"))))
 					);
 					break;
+				//Controls- 1
+				case 'C':
+					engine.addEntity(new Entity()
+					.add(new Geom(i * tile, j * tile, 48, tile))
+					.add(new Draw(new TextureRegion(Textures.get("arrowControls"))))
+					);
+					break;
+				case 'c':
+					engine.addEntity(new Entity()
+					.add(new Geom(i * tile, j * tile, 64, tile))
+					.add(new Draw(new TextureRegion(Textures.get("space"))))
+					);
+					break;
 				//Goal
 				case 'G':
 					engine.addEntity(new Entity()
