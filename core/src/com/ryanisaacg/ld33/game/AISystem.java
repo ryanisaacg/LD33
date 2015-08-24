@@ -76,6 +76,32 @@ public class AISystem extends IteratingSystem
 				aiSpeed.y = -3;
 			break;
 		case HUNTER_KILLER:
+			if(aiType.delay > 0)
+			{
+				if(geom.x > aiGeom.x + 32)
+					aiSpeed.x = 1;
+				else if(geom.x < aiGeom.x - 32)
+					aiSpeed.x = -1;
+				else if(geom.y > aiGeom.y + 32)
+					aiSpeed.y = 1;
+				else if(geom.y < aiGeom.y - 32)
+					aiSpeed.y = -1;
+				aiType.delay --;
+			}
+			else
+			{
+				float x, y, len;
+				x = geom.x - aiGeom.x;
+				y = geom.y - aiGeom.y;
+				len = (float)Math.sqrt(x * x + y * y);
+				x = x / len * 10;
+				y = y / len * 10;
+				engine.addEntity(bullet(aiGeom.x + aiGeom.width / 2, aiGeom.y + aiGeom.height / 2, 8, 4, x, y));
+				aiType.delay = 60;
+				Sounds.play("laser-gun");
+			}
+			img = Maps.draw.get(entity);
+			img.rotation = (float)Math.toDegrees(Math.atan2(geom.y - aiGeom.y, geom.x - aiGeom.x));
 			break;
 		}
 	}

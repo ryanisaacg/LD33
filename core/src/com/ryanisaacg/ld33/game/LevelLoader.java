@@ -85,6 +85,22 @@ public class LevelLoader
 					.add(new Health(1, 0))
 					);
 					break;
+				//hunter-killer
+				case 'K':
+					draw = new Draw(new TextureRegion(Textures.get("guard")));
+					draw.originX = 16;
+					draw.originY = 16;
+					speed = new Velocity(0, 0, Velocity.CollideBehavior.IGNORE);
+					speed.lockDirection = true;
+					engine.addEntity(new Entity() 
+					.add(new Geom(i * tile, j * tile, tile, tile))
+					.add(speed)
+					.add(new AI(AI.Type.HUNTER_KILLER))
+					.add(draw)
+					.add(new Health(1, 0))
+					.add(new Priority(1))
+					);
+					break;
 				//arrow trap
 				case 'A':
 					engine.addEntity(new Entity()
