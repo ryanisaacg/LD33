@@ -14,16 +14,18 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class GameScreen extends ScreenAdapter
 {
 	private final Engine engine;
 	private final SpriteBatch batch;
 	private LevelLoader loader;
-	private final int TILE = 32;
+	private final int TILE = 32, WIDTH, HEIGHT;
 	private int level;
 	private final GoalSystem goal;
-	private Texture background;
+	private ShapeRenderer shapes;
 	
 	public GameScreen(int level)
 	{
@@ -32,6 +34,8 @@ public class GameScreen extends ScreenAdapter
 		loader = new LevelLoader(getContents(file));
 		batch = new SpriteBatch();
 		engine = new Engine();
+		shapes = new ShapeRenderer();
+		
 		loader.spawn(engine, TILE);
 		TileMap map = loader.getTilemap(TILE);
 		engine.addSystem(new PhysicsSystem(map));
@@ -43,23 +47,20 @@ public class GameScreen extends ScreenAdapter
 		engine.addSystem(new TrapSystem());
 		engine.addSystem(goal = new GoalSystem());
 		
-		Pixmap bkgTile = new Pixmap(Gdx.files.internal("floor.png"));
-		Pixmap bkg = new Pixmap(map.width, map.height, Pixmap.Format.RGBA8888);
-		for(int i = 0; i < bkg.getWidth(); i += bkgTile.getWidth())
-			for(int j = 0; j < bkg.getHeight(); j += bkgTile.getHeight())
-				bkgTile.drawPixmap(bkg, i, j);
-		background = new Texture(bkg);
-		bkgTile.dispose();
-		bkg.dispose();
+		WIDTH = map.width;
+		HEIGHT = map.height;
 	}
 	
 	@Override
 	public void render(float delta)
 	{
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		Gdx.gl20.glClearColor(0.1f, 0.0f, 0.0f, 1);
+		Gdx.gl20.glClearColor(0.0f, 0.0f, 0.0f, 1);
+		shapes.setColor(0.1f, 0.0f, 0.0f, 0.0f);
+		shapes.begin(ShapeType.Filled);
+		shapes.rect(12, 12, WIDTH, HEIGHT);
+		shapes.end();
 		batch.begin();
-		batch.draw(background, 0, 0);
 		engine.update(delta);
 		batch.end();
 		ImmutableArray<Entity> entities = engine.getEntities();
@@ -99,7 +100,6 @@ public class GameScreen extends ScreenAdapter
 	{
 		Textures.dispose();
 		batch.dispose();
-		background.dispose();
 	}
 	
 	private String getContents(FileHandle file)
