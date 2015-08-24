@@ -4,7 +4,7 @@ package com.ryanisaacg.ld33.game;
 public class TileMap
 {
 	private boolean[][] map;
-	private final int tileSize, width, height;
+	public final int tileSize, width, height;
 	
 	public TileMap(boolean[][] map, int tileSize)
 	{

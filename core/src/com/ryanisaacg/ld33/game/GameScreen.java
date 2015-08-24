@@ -11,6 +11,8 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameScreen extends ScreenAdapter
@@ -21,6 +23,7 @@ public class GameScreen extends ScreenAdapter
 	private final int TILE = 32;
 	private int level;
 	private final GoalSystem goal;
+	private Texture background;
 	
 	public GameScreen(int level)
 	{
@@ -30,8 +33,8 @@ public class GameScreen extends ScreenAdapter
 		batch = new SpriteBatch();
 		engine = new Engine();
 		loader.spawn(engine, TILE);
-		
-		engine.addSystem(new PhysicsSystem(loader.getTilemap(TILE)));
+		TileMap map = loader.getTilemap(TILE);
+		engine.addSystem(new PhysicsSystem(map));
 		engine.addSystem(new RenderSystem(batch));
 		engine.addSystem(new ControlSystem());
 		engine.addSystem(new HurtSystem());
@@ -39,13 +42,24 @@ public class GameScreen extends ScreenAdapter
 		engine.addSystem(new AISystem());
 		engine.addSystem(new TrapSystem());
 		engine.addSystem(goal = new GoalSystem());
+		
+		Pixmap bkgTile = new Pixmap(Gdx.files.internal("floor.png"));
+		Pixmap bkg = new Pixmap(map.width, map.height, Pixmap.Format.RGBA8888);
+		for(int i = 0; i < bkg.getWidth(); i += bkgTile.getWidth())
+			for(int j = 0; j < bkg.getHeight(); j += bkgTile.getHeight())
+				bkgTile.drawPixmap(bkg, i, j);
+		background = new Texture(bkg);
+		bkgTile.dispose();
+		bkg.dispose();
 	}
 	
 	@Override
 	public void render(float delta)
 	{
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+		Gdx.gl20.glClearColor(1.0f, 0.8f, 0.8f, 1);
 		batch.begin();
+		batch.draw(background, 0, 0);
 		engine.update(delta);
 		batch.end();
 		ImmutableArray<Entity> entities = engine.getEntities();
@@ -85,6 +99,7 @@ public class GameScreen extends ScreenAdapter
 	{
 		Textures.dispose();
 		batch.dispose();
+		background.dispose();
 	}
 	
 	private String getContents(FileHandle file)

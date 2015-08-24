@@ -48,7 +48,7 @@ public class LevelLoader
 					engine.addEntity(new Entity()
 					.add(new Geom(i * tile, j * tile, tile, tile))
 					.add(new Hurt(Family.all(Geom.class).exclude(Jump.class)))
-					.add(new Draw(new TextureRegion(Textures.get("enemy"))))
+					.add(new Draw(new TextureRegion(Textures.get("spikes"))))
 					);
 					break;
 				//turret
