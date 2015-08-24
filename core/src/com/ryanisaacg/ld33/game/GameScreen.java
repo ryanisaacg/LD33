@@ -57,7 +57,7 @@ public class GameScreen extends ScreenAdapter
 	public void render(float delta)
 	{
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		Gdx.gl20.glClearColor(1.0f, 0.8f, 0.8f, 1);
+		Gdx.gl20.glClearColor(0.1f, 0.0f, 0.0f, 1);
 		batch.begin();
 		batch.draw(background, 0, 0);
 		engine.update(delta);

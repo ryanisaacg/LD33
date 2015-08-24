@@ -76,7 +76,7 @@ public class RenderSystem extends EntitySystem
 		{
 			tex.rotation = (float)Math.toDegrees(Math.atan2(speed.y, speed.x));
 		}
-		batch.draw(tex.region, x, y, tex.originX, tex.originY, width, height, tex.scaleX, tex.scaleY, tex.rotation);
+		batch.draw(tex.region, x + 12, y + 12, tex.originX, tex.originY, width, height, tex.scaleX, tex.scaleY, tex.rotation);
 	}
 	
 	public void update(float deltaTime)
