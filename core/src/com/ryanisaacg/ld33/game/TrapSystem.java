@@ -72,6 +72,28 @@ public class TrapSystem extends EntitySystem
 					}
 				}
 				break;
+			case MINE:
+				for(Entity target : targets)
+				{
+					Components.Geom region = Maps.geom.get(target);
+					Components.Geom trapRegion = Maps.geom.get(e);
+					//Rectangle tmp = Rectangle.tmp.set(region.x, region.y, region.width, region.height);
+					if(Components.distance(region, trapRegion) <= RNG /2)
+					{
+						engine.addEntity(bullet(trapRegion.x + trapRegion.width, trapRegion.y + trapRegion.height/2, 8, 4, SPD, 0));
+						engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height, 8, 4, 0, SPD));
+						engine.addEntity(bullet(trapRegion.x, trapRegion.y + trapRegion.height/2, 8, 4, -SPD, 0));
+						engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y, 8, 4, 0, -SPD));
+						engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height/2, 8, 4, SPD, SPD));
+						engine.addEntity(bullet(trapRegion.x - trapRegion.width/2, trapRegion.y + trapRegion.height/2, 8, 4, -SPD, SPD));
+						engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y - trapRegion.height/2, 8, 4, SPD, -SPD));
+						engine.addEntity(bullet(trapRegion.x - trapRegion.width/2, trapRegion.y - trapRegion.height/2, 8, 4, -SPD, -SPD));
+						Sounds.play("explosion");
+						trapType.delay = 30;
+						e.add(Components.MarkedForDeath.mark);
+					}
+				}
+				break;
 			case SMASH:
 				Components.Velocity velocity = Maps.velocity.get(e);
 				for(Entity target : targets)

@@ -179,7 +179,7 @@ public class Components
 	
 	public static class Trap implements Component
 	{
-		public enum Type { ARROW, SMASH };
+		public enum Type { ARROW, SMASH, MINE };
 		public Type type;
 		public int delay;
 		

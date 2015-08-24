@@ -124,12 +124,24 @@ public class LevelLoader
 					.add(new Draw(new TextureRegion(Textures.get("goal"))))
 					);
 					break;
+				//Mine
+				case 'M':
+					draw = new Draw(new TextureRegion(Textures.get("mines")));
+					draw.originX = 8;
+					draw.originY = 8;
+					engine.addEntity(new Entity()
+					.add(new Geom(i * tile + 16, j * tile + 16, 16, 16))
+					.add(draw)
+					.add(new Trap(Trap.Type.MINE))
+					);
+					break;
 				//Wall
 				case '1':
 					engine.addEntity(new Entity()
 					.add(new Geom(i * tile, j * tile, tile, tile))
 					.add(new Draw(new TextureRegion(Textures.get("wall"))))
 					);
+					break;
 				}
 		boolean hasGoal = engine.getEntitiesFor(Family.all(Goal.class).get()).size() != 0;
 		if(!hasGoal)
