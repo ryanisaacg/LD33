@@ -27,19 +27,25 @@ public class LevelLoader
 	
 	public Engine spawn(Engine engine, int tile)
 	{
+		Draw draw;
 		for(int i = 0; i < characters.length; i++)
 			for(int j = 0; j < characters[i].length; j++)
 				switch(characters[i][j])
 				{
 				//player
 				case 'P':
+					draw = new Draw(new TextureRegion(Textures.get("player")));
+					draw.originX = 16;
+					draw.originY = 16;
+					Velocity speed = new Velocity(0, 0, Velocity.CollideBehavior.STOP);
+					speed.lockDirection = true;
 					engine.addEntity(new Entity()
 					.add(new Control(Keys.RIGHT, Keys.UP, Keys.LEFT, Keys.DOWN, Keys.SPACE))
 					.add(new Geom(i * tile, j * tile, tile, tile))
-					.add(new Velocity(0, 0, Velocity.CollideBehavior.STOP))
+					.add(speed)
+					.add(draw)
 					.add(new Health(1, 0))
 					.add(new Priority(0))
-					.add(new Draw(new TextureRegion(Textures.get("player"))))
 					.add(Follow.instance)
 					);
 					break;
@@ -53,7 +59,7 @@ public class LevelLoader
 					break;
 				//turret
 				case 'T':
-					Draw draw = new Draw(new TextureRegion(Textures.get("turret")));
+					draw = new Draw(new TextureRegion(Textures.get("turret")));
 					draw.originX = draw.region.getRegionWidth() / 2;
 					draw.originY = draw.region.getRegionHeight() / 2;
 					engine.addEntity(new Entity() 
