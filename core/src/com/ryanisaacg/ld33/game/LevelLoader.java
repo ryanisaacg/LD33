@@ -71,11 +71,16 @@ public class LevelLoader
 					break;
 				//hunter
 				case 'H':
+					draw = new Draw(new TextureRegion(Textures.get("hunter")));
+					draw.originX = 16;
+					draw.originY = 16;
+					speed = new Velocity(0, 0, Velocity.CollideBehavior.STOP);
+					speed.lockDirection = true;
 					engine.addEntity(new Entity() 
 					.add(new Geom(i * tile, j * tile, tile, tile))
-					.add(new Velocity(0, 0))
+					.add(speed)
 					.add(new AI(AI.Type.HUNTER))
-					.add(new Draw(new TextureRegion(Textures.get("enemy"))))
+					.add(draw)
 					.add(new Hurt(Family.all(Control.class).exclude(Jump.class)))
 					.add(new Health(1, 0))
 					);

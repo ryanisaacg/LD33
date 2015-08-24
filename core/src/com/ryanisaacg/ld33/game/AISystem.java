@@ -65,13 +65,13 @@ public class AISystem extends IteratingSystem
 			img.rotation = (float)Math.toDegrees(Math.atan2(geom.y - aiGeom.y, geom.x - aiGeom.x));
 			break;
 		case HUNTER:
-			if(geom.x > aiGeom.x + 3)
+			if(geom.x > aiGeom.x + 32)
 				aiSpeed.x = 3;
-			else if(geom.x < aiGeom.x - 3)
+			else if(geom.x < aiGeom.x - 32)
 				aiSpeed.x = -3;
-			if(geom.y > aiGeom.y + 3)
+			if(geom.y > aiGeom.y + 32)
 				aiSpeed.y = 3;
-			if(geom.y < aiGeom.y - 3)
+			if(geom.y < aiGeom.y - 32)
 				aiSpeed.y = -3;
 			break;
 		case HUNTER_KILLER:
