@@ -132,17 +132,28 @@ public class TrapSystem extends EntitySystem
 							img.region.setTexture(Textures.get("sensor_red"));
 						else if(trapType.delay <= 0)
 						{
-							engine.addEntity(bullet(trapRegion.x + trapRegion.width, trapRegion.y + trapRegion.height/2, 8, 4, SPD, 0));
-							engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height, 8, 4, 0, SPD));
-							engine.addEntity(bullet(trapRegion.x, trapRegion.y + trapRegion.height/2, 8, 4, -SPD, 0));
-							engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y, 8, 4, 0, -SPD));
-							engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height/2, 8, 4, SPD, SPD));
-							engine.addEntity(bullet(trapRegion.x - trapRegion.width/2, trapRegion.y + trapRegion.height/2, 8, 4, -SPD, SPD));
-							engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y - trapRegion.height/2, 8, 4, SPD, -SPD));
-							engine.addEntity(bullet(trapRegion.x - trapRegion.width/2, trapRegion.y - trapRegion.height/2, 8, 4, -SPD, -SPD));
-							Sounds.play("explosion");
-							trapType.delay = 120;
-							img.region.setTexture(Textures.get("sensor"));
+							boolean touching = false;
+							for(Entity target : targets)
+							{
+								if(Maps.trap.get(target) != null || Maps.hurt.get(target) != null) continue;
+								Components.Geom region = Maps.geom.get(target);
+								if(region.overlaps(trapRegion))
+									touching = true;
+							}
+							if(touching)
+							{
+								engine.addEntity(bullet(trapRegion.x + trapRegion.width, trapRegion.y + trapRegion.height/2, 8, 4, SPD, 0));
+								engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height, 8, 4, 0, SPD));
+								engine.addEntity(bullet(trapRegion.x, trapRegion.y + trapRegion.height/2, 8, 4, -SPD, 0));
+								engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y, 8, 4, 0, -SPD));
+								engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y + trapRegion.height/2, 8, 4, SPD, SPD));
+								engine.addEntity(bullet(trapRegion.x - trapRegion.width/2, trapRegion.y + trapRegion.height/2, 8, 4, -SPD, SPD));
+								engine.addEntity(bullet(trapRegion.x + trapRegion.width/2, trapRegion.y - trapRegion.height/2, 8, 4, SPD, -SPD));
+								engine.addEntity(bullet(trapRegion.x - trapRegion.width/2, trapRegion.y - trapRegion.height/2, 8, 4, -SPD, -SPD));
+								Sounds.play("explosion");
+								trapType.delay = 120;
+								img.region.setTexture(Textures.get("sensor"));
+							}
 						}
 				}
 				else

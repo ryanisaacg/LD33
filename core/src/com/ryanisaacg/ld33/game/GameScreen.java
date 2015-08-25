@@ -5,7 +5,9 @@ import java.io.IOException;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
@@ -14,6 +16,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.ryanisaacg.ld33.EndScreen;
 
 public class GameScreen extends ScreenAdapter
 {
@@ -25,8 +28,11 @@ public class GameScreen extends ScreenAdapter
 	private final GoalSystem goal;
 	private ShapeRenderer shapes;
 	private float r;
+	private Game game;
+	private int countdown;
+	private EntitySystem system, physics;
 	
-	public GameScreen(int level)
+	public GameScreen(int level, Game game)
 	{
 		this.level = level;
 		FileHandle file = Gdx.files.internal("levels/lvl" + level);
@@ -50,6 +56,7 @@ public class GameScreen extends ScreenAdapter
 		WIDTH = map.width;
 		HEIGHT = map.height;
 		r = 1;
+		this.game = game;
 	}
 	
 	@Override
@@ -69,15 +76,40 @@ public class GameScreen extends ScreenAdapter
 		for(Entity entity : entities)
 			if(Maps.marked.get(entity) != null)
 				if(Maps.control.get(entity) != null)
-					restart();
+				{
+					if(countdown == 0) restart(false);
+				}
 				else
 					engine.removeEntity(entity);
-		if(goal.isFinished() || Gdx.input.isKeyJustPressed(Keys.PAGE_UP))
+		if(countdown == 0 && (goal.isFinished() || Gdx.input.isKeyJustPressed(Keys.PAGE_UP)))
 			next();
+		if(countdown > 0)
+		{
+			countdown--;
+			if(countdown == 1)
+			{
+				trueRestart();
+				countdown = 0;
+			}
+		}
+	}
+	
+	private void restart(boolean win)
+	{
+		Sounds.play(win ? "success" : "failure");
+		countdown = 60;
+		system = engine.getSystem(ControlSystem.class);
+		engine.removeSystem(system);
+		physics = engine.getSystem(PhysicsSystem.class);
+		engine.removeSystem(physics);
+		engine.removeSystem(goal);
 	}
 		
-	private void restart()
+	private void trueRestart()
 	{
+		engine.addSystem(system);
+		engine.addSystem(physics);
+		engine.addSystem(goal);
 		engine.removeAllEntities();
 		loader.spawn(engine, TILE);
 		engine.removeSystem(engine.getSystem(PhysicsSystem.class));
@@ -92,7 +124,12 @@ public class GameScreen extends ScreenAdapter
 		if(file.exists())
 		{
 			loader = new LevelLoader(getContents(file));
-			restart();
+			restart(true);
+		}
+		else
+		{
+			dispose();
+			game.setScreen(new EndScreen());
 		}
 	}
 

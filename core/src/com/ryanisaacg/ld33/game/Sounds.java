@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 
 public class Sounds
 {
@@ -21,7 +22,10 @@ public class Sounds
 			sounds.get(sound).play();
 		else
 		{
-			Sound snd = Gdx.audio.newSound(Gdx.files.internal("sounds/" + sound + ".mp3"));
+			FileHandle file = Gdx.files.internal("sounds/" + sound + ".mp3");
+			if(!file.exists())
+				file = Gdx.files.internal("sounds/" + sound + ".ogg");
+			Sound snd = Gdx.audio.newSound(file);
 			sounds.put(sound, snd);
 			snd.play();
 		}
